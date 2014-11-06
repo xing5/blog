@@ -20,15 +20,15 @@ In our case, we need to implement a deserializer for XML files based on the stru
 ### Programming Environment
 I prefer [Gradle](http://www.gradle.org/docs/current/userguide/installation.html) as the build automation and Eclispe as the IDE for java programming. Make sure you have them installed.
 
-1. Create a folder for the project and create a __build.gradle__** file using the template below.
+1\. Create a folder for the project and create a **_build.gradle_** file using the template below.
 
-{% gist 0d5716717f2bc7b26515 [build.gradle] %}
+{% gist 0d5716717f2bc7b26515 build.gradle %}
 
-2. Add dependencies to the __build.gradle__**.
+2\. Add dependencies to the **_build.gradle_**.
 
-``` [diff] [Add Dependencies]
+``` diff
 @@ -25,6 +25,8 @@ repositories {
-  
+
  dependencies {
      //compile 'commons-collections:commons-collections:3.2'
 +    compile 'org.apache.flume:flume-ng-sdk:1.5.0'
@@ -37,15 +37,14 @@ I prefer [Gradle](http://www.gradle.org/docs/current/userguide/installation.html
  }
 ```
 
-3. Initialize source folders and the Eclipse project.
+3\. Initialize source folders and the Eclipse project.
 
-``` [shell] 
-gradle initSourceFolders eclipse
 ```
+$ gradle initSourceFolders eclipse
+```
+4\. Import the project to Eclipse and now you can start coding.
 
-4. Import the project to Eclipse and now you can start coding.
-
-![project screenshot]({{ site.url }}/assets/flume-plugins-project.png)
+{% img /assets/flume-plugins-project.png %}
 
 ### Development
 blahblah
