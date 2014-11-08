@@ -36,8 +36,8 @@ post_asset_folder: true
 relative_link: false
 highlight:
   enable: true
-  line_number: true
-  tab_replace:
+  line_number: true 
+  tab_replace: 
 
 # Category & Tag
 default_category: uncategorized
@@ -78,9 +78,9 @@ disqus_shortname: xingwu
 
 # Extensions
 ## Plugins: https://github.com/hexojs/hexo/wiki/Plugins
-#marked:
-#  gfm: false
-#  pedantic: true
+marked:
+  gfm: true 
+  breaks: false
   
 ## Themes: https://github.com/hexojs/hexo/wiki/Themes
 theme: landscape
