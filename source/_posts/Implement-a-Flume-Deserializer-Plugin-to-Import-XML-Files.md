@@ -146,6 +146,10 @@ Here is the source code of the deserializer after finished (I changed some class
 
 {% include_code MyXMLDeserializer.java lang:java /MyXMLDeserializer.java %}
 
+We can build a unittest file to test the functions:
+
+{% include_code lang:java /MyXMLDeserializerTest.java %}
+
 
 ### 2.3 Build and Deployment
 blahblah
