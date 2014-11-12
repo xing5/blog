@@ -16,11 +16,11 @@ tags:
 [Flume](https://flume.apache.org/) is an open-source Apache project, it is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. This article shows how to import XML Files with Flume, including the development of a deserializer plugin and the corresponding configurations of Flume.
 We are using Flume 1.5.0 integrated with MapR.
 
-The secenario is that XML files are sychronized to a directory periodically, we need to config a *Spooling Directory Source* to load these XML files into Flume.
+The secenario is that XML files are sychronized to a directory periodically, we need to config a **Spooling Directory Source** to load these XML files into Flume.
 
 2 Implement a Flume Deserializer 
 ------------------------------
-The default deserializer of Flume's *Spooling Directory Source* is **LineDeserializer**, which simply parses each line as an Flume event. In our case, we need to implement a deserializer for XML files based on the structure.
+The default deserializer of Flume's **Spooling Directory Source** is `LineDeserializer`, which simply parses each line as an Flume event. In our case, we need to implement a deserializer for XML files based on the structure.
 
 <!-- more -->
 
@@ -51,80 +51,100 @@ $ gradle initSourceFolders eclipse
 ```
 4\. Import the project to Eclipse and now you can start coding.
 
-<img class="align-left" src="flume-plugins-project.png">
+{% img align-left /images/flume-plugins-project.png Eclipse Project %}
 
 ### 2.2 Development
-Custom deserializer has to implement **_EventDeserializer_** interface. 
-We need to read input stream from **_ResettableInputStream_** and output a list of **_Event_** through __readEvents()__ function.
-``` java EventDeserializer.java https://github.com/apache/flume/blob/trunk/flume-ng-core/src/main/java/org/apache/flume/serialization/EventDeserializer.java
-/**
- * Establishes a contract for reading events stored in arbitrary formats from
- * reliable, resettable streams.
- */
-@InterfaceAudience.Public
-@InterfaceStability.Evolving
-public interface EventDeserializer extends Resettable, Closeable {
+Create a custom deserializer implements the `EventDeserializer` interface. 
+It reads input stream from `ResettableInputStream` and output `List<Event>` through the `readEvents()` function.
+``` java MyXMLDeserializer.java 
+package me.xingwu.flume.plugins;
 
-  /**
-   * Read a single event from the underlying stream.
-   * @return Deserialized event or {@code null} if no events could be read.
-   * @throws IOException
-   * @see #mark()
-   * @see #reset()
-   */
-  public Event readEvent() throws IOException;
+import java.io.IOException;
+import java.util.List;
 
-  /**
-   * Read a batch of events from the underlying stream.
-   * @param numEvents Maximum number of events to return.
-   * @return List of read events, or empty list if no events could be read.
-   * @throws IOException
-   * @see #mark()
-   * @see #reset()
-   */
-  public List<Event> readEvents(int numEvents) throws IOException;
+import org.apache.flume.Event;
+import org.apache.flume.serialization.EventDeserializer;
 
-  /**
-   * Marks the underlying input stream, indicating that the events previously
-   * returned by this EventDeserializer have been successfully committed.
-   * @throws IOException
-   * @see #reset()
-   */
-  @Override
-  public void mark() throws IOException;
+public class MyXMLDeserializer implements EventDeserializer {
 
-  /**
-   * Resets the underlying input stream to the last known mark (or beginning
-   * of the stream if {@link #mark()} was never previously called. This should
-   * be done in the case of inability to commit previously-deserialized events.
-   * @throws IOException
-   * @see #mark()
-   */
-  @Override
-  public void reset() throws IOException;
+    public MyXMLDeserializer() {
+        // TODO Auto-generated constructor stub
+    }
 
-  /**
-   * Calls {@link #reset()} on the stream and then closes it.
-   * In the case of successful completion of event consumption,
-   * {@link #mark()} MUST be called before {@code close()}.
-   * @throws IOException
-   * @see #mark()
-   * @see #reset()
-   */
-  @Override
-  public void close() throws IOException;
+    @Override
+    public Event readEvent() throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-  /**
-   * Knows how to construct this deserializer.<br/>
-   * <b>Note: Implementations MUST provide a public a no-arg constructor.</b>
-   */
-  public interface Builder {
-    public EventDeserializer build(Context context, ResettableInputStream in);
-  }
+    @Override
+    public List<Event> readEvents(int numEvents) throws IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void mark() throws IOException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void reset() throws IOException {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void close() throws IOException {
+        // TODO Auto-generated method stub
+
+    }
 
 }
-
 ```
+
+It is better to read the XML files as a stream using `javax.xml.stream.XMLStreamReader` instead of parse the whole file to a XML object and then extract the events. 
+So we need to wrap up `ResettableInputStream` to `java.io.InputStream` first:
+
+``` java
+package me.xingwu.flume.plugins;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.flume.serialization.ResettableInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class FlumeInputStream extends InputStream {
+    private static final Logger logger = LoggerFactory.getLogger(FlumeInputStream.class);
+
+    private final ResettableInputStream in;
+
+    public FlumeInputStream(ResettableInputStream input) {
+        this.in = input;
+    }
+
+    @Override
+    public int read() throws IOException {
+        try {
+            return this.in.read();
+        } catch (Exception e) {
+            logger.error("input stream read failed:" + e.getMessage());
+            return 0;
+        }
+    }
+
+}
+```
+
+Now we can start working on the XML parsing and Flume Events generating. Be sure to set the event headers if you get to route the events to different sinks later. 
+>For details of events routing please refer to [another post](/2014/10/11/Routing-Flume-Events-to-Different-Sinks/)
+
+Here is the source code of the deserializer after finished (I changed some class/variable names and I can't provide the XML structure, but you can get the idea from it):
+
+{% include_code MyXMLDeserializer.java lang:java /MyXMLDeserializer.java %}
 
 
 ### 2.3 Build and Deployment
