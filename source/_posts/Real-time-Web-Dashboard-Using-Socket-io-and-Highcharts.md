@@ -8,7 +8,6 @@ tags:
 - Node.js
 - Real-time
 - Chart
-- Real-time
 - Web
 ---
 blah blah

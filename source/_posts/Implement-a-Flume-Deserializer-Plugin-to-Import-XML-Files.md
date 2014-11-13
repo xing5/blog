@@ -11,20 +11,20 @@ tags:
 
 ---
 
-1 Background
+Background
 ----------
 [Flume](https://flume.apache.org/) is an open-source Apache project, it is a distributed, reliable, and available service for efficiently collecting, aggregating, and moving large amounts of log data. This article shows how to import XML Files with Flume, including the development of a deserializer plugin and the corresponding configurations of Flume.
-We are using Flume 1.5.0 integrated with MapR.
+We are using Flume 1.5.0 integrated in MapR.
 
 The secenario is that XML files are sychronized to a directory periodically, we need to config a **Spooling Directory Source** to load these XML files into Flume.
 
-2 Implement a Flume Deserializer 
+Implement a Flume Deserializer 
 ------------------------------
 The default deserializer of Flume's **Spooling Directory Source** is `LineDeserializer`, which simply parses each line as an Flume event. In our case, we need to implement a deserializer for XML files based on the structure.
 
 <!-- more -->
 
-### 2.1 Programming Environment
+### Programming Environment
 I prefer [Gradle](http://www.gradle.org/docs/current/userguide/installation.html) as the build automation and Eclispe as the IDE for java programming. Make sure you have them installed.
 
 1\. Create a folder for the project and create a **_build.gradle_** file using the template below.
@@ -53,8 +53,8 @@ $ gradle initSourceFolders eclipse
 
 {% img align-left /images/flume-plugins-project.png Eclipse Project %}
 
-### 2.2 Development
-Create a custom deserializer implements the `EventDeserializer` interface. 
+### Development
+Create a custom deserializer implements the `EventDeserializer` interface. For instance, here we name it `MyXMLDeserializer`.
 It reads input stream from `ResettableInputStream` and output `List<Event>` through the `readEvents()` function.
 ``` java MyXMLDeserializer.java 
 package me.xingwu.flume.plugins;
@@ -142,10 +142,10 @@ public class FlumeInputStream extends InputStream {
 Now we can start working on the XML parsing and Flume Events generating. Be sure to set the event headers if you get to route the events to different sinks later. 
 >For details of events routing please refer to [another post](/2014/10/11/Routing-Flume-Events-to-Different-Sinks/)
 
-Here is the source code of the deserializer after finished (I changed some class/variable names and I can't provide the XML structure, but you can get the idea from it):
+The source code of the deserializer is as below (I changed some class/variable names and I can't provide the XML structure, but you can get the idea from it):
 
 {% include_code MyXMLDeserializer.java lang:java /MyXMLDeserializer.java %}
 
 
-### 2.3 Build and Deployment
+### Build and Deployment
 blahblah
