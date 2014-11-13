@@ -24,12 +24,22 @@
     ul, ol, dl
       margin-left: 15px
       list-style: disc
+  ol.toc, ul.toc
+    margin-left: 0
+    list-style: none
+    a
+      display:inline-block
+      width:100%
+    a.anchor
+      font-size: 1.2em 
+      font-family: font-mono
+      padding: 10px 0
+  ul.toc-child, ol.toc-child
+    list-style: none
+
 
 .fixed
   position: fixed
-
-ol.toc ol.toc-child
-  list-style: none
 
 .recents
   padding: 0
