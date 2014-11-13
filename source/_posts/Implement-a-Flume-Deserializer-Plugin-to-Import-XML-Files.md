@@ -146,10 +146,30 @@ The source code of the deserializer is as below (I changed some class/variable n
 
 {% include_code MyXMLDeserializer.java lang:java /MyXMLDeserializer.java %}
 
-We can build a unittest file to test the functions:
+### Unittest
+
+We can build a unittest file and run as *JUnit Test*:
 
 {% include_code lang:java /MyXMLDeserializerTest.java %}
 
 
 ### Build and Deployment
-blahblah
+
+Run `gradle build` then you can find the lib at `build/libs/the-package-name-0.1.0.jar`.
+You can change the jar name and version in the **_build.grale_**.
+
+For the deployment, simply put the jar in `$FLUME_HOME/plugins.d/ANY_NAME_YOU_LIKE/lib/` and configure the Flume this way:
+
+``` ini
+# Source
+agent.sources = helloXMLs
+agent.sources.helloXMLs.type = spooldir
+agent.sources.helloXMLs.spoolDir = /opt/data/spooltest
+agent.sources.helloXMLs.deletePolicy = immediate
+agent.sources.helloXMLs.deserializer = me.xingwu.flume.plugins.MyXMLDeserializer$Build
+```
+
+Make sure you put a `$Build` after your class name, or you will get an error like this:
+> org.apache.flume.FlumeException: Unable to instantiate Builder from me.xingwu.flume.plugins.MyXMLDeserializer: does not appear to implement org.apache.flume.serialization.EventDeserializer$Builder
+
+Now the XML source has been set up! Configure channels and sinks for Flume and enjoy! Leave a comment if you get any questions :)
