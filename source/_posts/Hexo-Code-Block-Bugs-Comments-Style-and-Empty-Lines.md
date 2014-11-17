@@ -14,7 +14,7 @@ tags:
 1. Unclosed html elements in code block. [#902](https://github.com/hexojs/hexo/issues/902)
 2. Problems related to empty lines. [#795](https://github.com/hexojs/hexo/pull/795)  
 
-As you can see, these problems do not exist in my blog. I fixed the bugs with a small patch and sent a [pull request](https://github.com/hexojs/hexo/pull/904) to the [Hexo project](https://github.com/hexojs/hexo) on Github. 
+As you can see, these problems do not exist in my blog. The following patch can solve these bugs. I have sent a [pull request](https://github.com/hexojs/hexo/pull/904) to the [Hexo project](https://github.com/hexojs/hexo) on Github. 
 <!-- more -->
 
 ``` diff
