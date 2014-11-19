@@ -26,7 +26,8 @@ The default deserializer of Flume's **Spooling Directory Source** is `LineDeseri
 <!-- more -->
 
 ### Programming Environment
-I prefer [Gradle](http://www.gradle.org/docs/current/userguide/installation.html) as the build automation and Eclispe as the IDE for java programming. Make sure you have them installed.
+I prefer [Gradle](http://www.gradle.org/docs/current/userguide/installation.html) as the build automation and Eclispe as the IDE for java programming. 
+Please make sure you have them installed.
 
 1\. Create a folder for the project and create a **_build.gradle_** file using the template below.
 

@@ -17,7 +17,10 @@ Google Maps API V3 has a feature named [Heatmap Layer](https://developers.google
 <!-- more -->
 
 ##Demo
-It will be clearer if I just show you the demos of *Google Heatmap Layer* and our custom clickable two-dimension heatmap layer. Here they are:
+Please see the demos below. I implemented two earthquakes heatmaps using the real-time GeoJSON data from [USGS](http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php). 
+The first one is implemented with Google's built-in Heatmap layer. 
+The second one creates a custom heatmap layer with Google Maps API's [Marker](https://developers.google.com/maps/documentation/javascript/markers) and [OverlayView](https://developers.google.com/maps/documentation/javascript/reference#OverlayView).
+
 ###Google Heatmap Layer
 
 <div style="position:relative; margin:auto;height:400px; width:800px;">
@@ -46,4 +49,5 @@ It will be clearer if I just show you the demos of *Google Heatmap Layer* and ou
 <script src="/downloads/code/circleheatmap.js"></script>
 <script src="/downloads/code/heatmap_post.js"></script>
 
+##Implementation
 
