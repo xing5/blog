@@ -33,8 +33,8 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-// This plugin provides the 'shadowJar' task, which create an assembly jar containing your app and its dependencies.
-// Spark requires your jar to bundle everything except spark and hadoop. 
+// This plugin provides the 'shadowJar' task, which create an assembly jar.
+// Because Spark requires your jar to bundle everything except spark and hadoop. 
 apply plugin: 'com.github.johnrengelman.shadow' 
  
 sourceCompatibility = 1.7
@@ -164,7 +164,8 @@ public class ExampleApp  {
 ```
 For the usage of built-in functions such as `foreachRDD`, `reduceByKey`, etc., please refer to [Transformation on DStreams](https://spark.apache.org/docs/latest/streaming-programming-guide.html#transformations-on-dstreams).
 
-As for the custom functions (e.g.: `new ExampleAppFunctions.ExtractPairFromEvents()`, `new ExampleAppFunctions.ReduceCellByNode()`, I make them public static and put them in another class to make code readable. 
+As for the custom functions (e.g.: `ExtractPairFromEvents`, `ReduceCellByNode`, etc.), 
+I put them in another class and make them public static, so that the code are more readable. 
 
 ``` java
 package example.package.name;
