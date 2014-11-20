@@ -16,16 +16,16 @@ function init() {
     var ctx=c.getContext("2d");
     ctx.canvas.width  = 150;
     ctx.canvas.height = 40;
-    var my_gradient=ctx.createLinearGradient(0,0,100,0);
+    var my_gradient=ctx.createLinearGradient(20,0,120,0);
     my_gradient.addColorStop(0,"black");
-    my_gradient.addColorStop(0.75,"yellow");
+    my_gradient.addColorStop(0.5,"yellow");
     my_gradient.addColorStop(1,"red");
     ctx.fillStyle=my_gradient;
     ctx.fillRect(20,25,100,10);
     ctx.fillStyle="#000";
     ctx.font="15px Georgia";
     ctx.fillText("0",20,20);
-    ctx.fillText("7",100,20);
+    ctx.fillText("7",110,20);
 
     var heatmap_data = {};
     var gmap_data = [];
@@ -64,7 +64,7 @@ function init() {
                 maxRadiusVal: 1000,
                 maxRadius: 20
             },
-            infoWindow: '<div style="width:100px;overflow:hidden;height:50px">mag:{{mag}}</br><b>sig</b>:{{sig}}</div>'
+            infoWindow: '<div style="width:60px;overflow:hidden;height:50px">mag: {{mag}}</br><b>sig</b>: {{sig}}</div>'
         });
 
         gmap_layer.setMap(gmap);
