@@ -12,21 +12,6 @@ function init() {
     gmap = new google.maps.Map(document.getElementById('google-heatmap'), myOptions);
     map = new google.maps.Map(document.getElementById('map'), myOptions);
 
-    var c=document.getElementById("spectrumCanvas");
-    var ctx=c.getContext("2d");
-    ctx.canvas.width  = 150;
-    ctx.canvas.height = 40;
-    var my_gradient=ctx.createLinearGradient(0,0,100,0);
-    my_gradient.addColorStop(0,"black");
-    my_gradient.addColorStop(0.75,"yellow");
-    my_gradient.addColorStop(1,"red");
-    ctx.fillStyle=my_gradient;
-    ctx.fillRect(20,25,100,10);
-    ctx.fillStyle="#000";
-    ctx.font="15px Georgia";
-    ctx.fillText("0",20,20);
-    ctx.fillText("7",100,20);
-
     var heatmap_data = {};
     var gmap_data = [];
     $.getJSON('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp?callback=?')
@@ -47,13 +32,13 @@ function init() {
             gmap_data.push(gmap_point);
         });
 
-        var gmap_layer = new google.maps.visualization.HeatmapLayer({
+        gmap_layer = new google.maps.visualization.HeatmapLayer({
             data: gmap_data,
             radius: 10,
             maxIntensity: 7
         });
 
-        var heatmap_layer = new CircleHeatMapLayer(heatmap_data, {
+        heatmap_layer = new CircleHeatMapLayer(heatmap_data, {
             color: {
                 binding: 'mag',
                 spectrum: ['black', 'yellow', 'red'],

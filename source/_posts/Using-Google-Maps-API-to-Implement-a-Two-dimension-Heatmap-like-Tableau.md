@@ -39,8 +39,6 @@ The second one creates a custom heatmap layer with Google Maps API's [Marker](ht
         Earthquakes: <span class='num'>null</span><br/>
         Date: <span class='time'>null</span>
     </div>
-    <canvas id='spectrumCanvas' style="position:absolute; bottom:10px; right: 0px; width:150px; height:40px">
-    </canvas>
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
