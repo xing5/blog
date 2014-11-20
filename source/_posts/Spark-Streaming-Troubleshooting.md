@@ -12,3 +12,9 @@ tags:
 blah blah
 
 <!-- more -->
+
+{% raw %}
+```
+Your code block with {{anything}} 
+```
+{% endraw %}

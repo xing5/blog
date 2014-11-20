@@ -49,7 +49,7 @@ function init() {
                 maxRadiusVal: 1000,
                 maxRadius: 20
             },
-            infoWindow: '<div style="width:100px;overflow:hidden;height:50px">mag:{{mag}}</br><b>sig</b>:{{sig}}</div>'
+            infoWindow: '<div style="width:60px;overflow:hidden;height:50px">mag: {{mag}}</br><b>sig</b>: {{sig}}</div>'
         });
 
         gmap_layer.setMap(gmap);
