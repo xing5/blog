@@ -9,12 +9,13 @@ tags:
 - Troubleshooting
 - Big Data
 ---
-blah blah
+This article is a record for the problems I met when developing Spark Streaming applications. 
 
 <!-- more -->
 
-{% raw %}
-```
-Your code block with {{anything}} 
-```
-{% endraw %}
+## Where are the logs?
+### Which log4j.properties the Spark is using?
+
+### Some logs just don't show up?
+
+## Cannot Launch App?

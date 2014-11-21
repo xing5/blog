@@ -10,6 +10,6 @@ tags:
 - Chart
 - Web
 ---
-blah blah
+Under construction. Coming up soon.
 
 <!-- more -->

@@ -12,7 +12,7 @@ language:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://blog.xingwu.me
+url: http://xingwu.me
 root: /
 permalink: :year/:month/:day/:title/
 tag_dir: tags
@@ -81,6 +81,10 @@ disqus_shortname: xingwu
 marked:
   gfm: true 
   breaks: false
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
   
 ## Themes: https://github.com/hexojs/hexo/wiki/Themes
 theme: landscape

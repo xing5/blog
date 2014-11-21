@@ -8,6 +8,6 @@ tags:
 - Installation
 - CentOS
 ---
-blah blah
+Under construction. Coming up soon.
 
 <!-- more -->
