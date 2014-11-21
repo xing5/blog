@@ -31,6 +31,7 @@ function CircleHeatMapLayer(data, options) {
         this.gradientColor.setNumberRange(this.options.color.minSpectrumVal, this.options.color.maxSpectrumVal);
     }
     this.lastInfoWindow = null;
+    this.spectrum = null;
 }
 
 CircleHeatMapLayer.prototype = new google.maps.OverlayView;
@@ -142,7 +143,11 @@ CircleHeatMapLayer.prototype.onAdd = function() {
     }
 
     if (this.options.color.binding && this.options.spectrum) {
-        this.appendSpectrum();
+        if (this.spectrum) {
+            this.spectrum.style.display = 'block';
+        } else {
+            this.appendSpectrum();
+        }
     }
 };
 
