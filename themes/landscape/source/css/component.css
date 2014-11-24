@@ -81,9 +81,9 @@ body {
 	-moz-transform: translate3d(50%,0,0);
 	-ms-transform: translate3d(50%,0,0);
 	transform: translate3d(50%,0,0);
-	-webkit-transition: transform 0.5s;
-	-moz-transition: transform 0.5s;
-	transition: transform 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	transition: all 0.5s;
 	-webkit-transition-delay: 0.1s;
 	transition-delay: 0.1s;
 }
@@ -93,9 +93,9 @@ body {
 	-moz-transform: translate3d(0,-40%,0);
 	-ms-transform: translate3d(0,-40%,0);
 	transform: translate3d(0,-40%,0);
-	-webkit-transition: transform 0.5s;
-	-moz-transition: transform 0.5s;
-	transition: transform 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	transition: all 0.5s;
 }
 
 .title-desc pre {
@@ -103,7 +103,7 @@ body {
 }
 .title-desc {
 	position: absolute;
-	bottom: 10%;
+	bottom: 0;
 	left: 0;
 	-webkit-transform: translate3d(20%,25%,0);
 	-moz-transform: translate3d(20%,25%,0);
@@ -123,7 +123,7 @@ body {
 }
 
 .title-desc.desc-active{
-	bottom: 0
+	bottom: 10%;
 	-webkit-transform: translate3d(0,25%,0);
 	-moz-transform: translate3d(0,25%,0);
 	-ms-transform: translate3d(0,25%,0);
