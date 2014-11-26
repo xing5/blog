@@ -1,6 +1,7 @@
 title: Real-time Web Dashboard Using Socket.io and Highcharts
 comments: true
 date: 2014-10-19 20:28:19
+toc: true
 categories:
 - Tech
 tags:
@@ -19,8 +20,7 @@ This article is a guide to implement a real-time web dashboard using Socket.io. 
 
 #Quick Start
 
-Let us start with an example, a single chart that automatically updates in real-time. In this example, the data is stored in MySQL.
-
+Let us start with an example, a single chart that automatically updates in real-time. In this example, the data is stored in MySQL. 
 ## Server Side
 
 The server should keep data updated and push data to client. 
@@ -134,7 +134,7 @@ Please see the corresponding code for the client as below. [Highcharts](http://h
 
 ``` html index.html
 <!doctype html>
-<html class="no-js">
+<html>
   <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
@@ -149,7 +149,7 @@ Please see the corresponding code for the client as below. [Highcharts](http://h
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="socket.io.js"></script>
     <script>
-        var socket = io('http://localhost');
+        var socket = io('http://xx.xx.xx.xx');
         var hchart = null;
         socket.on('completeData', function (data) {
             document.getElementById('complete-data').innerHTML = JSON.stringify(data);
@@ -252,8 +252,143 @@ Please see the corresponding code for the client as below. [Highcharts](http://h
 
 Now we consider a generic real-time web analytics system, with which we can easily add more charts and configure different data sources.
 
+## Rooms
+The largest problem in the example above is that the server simply pushes all the data updates to all the clients. 
+In the real use case, each user only view one dashboard at a time, so how to send data only to those clients that have opened the related dashboards?
+Socket.io's [Rooms and Namespaces](http://socket.io/docs/rooms-and-namespaces/) can solve this problem easily. 
+We can change the above code like this to support rooms (not runnable, just to show the concept):
+``` javascript Server Side
+io.sockets.on('connection', function(socket) {
+    socket.on('join', function(event) {
+        //leave all existing rooms
+        for (var i = 0; i < socket.rooms.length; i++) {
+            debug('leave:', socket.rooms[i]);
+            socket.leave(socket.rooms[i]);
+        }
 
+        //join the new room
+        debug('join:', event.room);
+        socket.join(event.room);
 
+        // send complete data when joining a room
+        socket.emit('completeData', getRoomData(event.room));
+    })
+});
 
+// push new data
+function pushUpdate(new_data) {
+    var sockets = null;
 
+    //a room list that needs this data
+    var registered_rooms = this.query.registered_rooms;
+    for (var i = 0; i < registered_rooms.length; i++) {
+        if (sockets == null) {
+            sockets = io.to(registered_rooms[i]);
+        } else {
+            sockets = sockets.to(registered_rooms[i]);
+        }
+    }
+    sockets.emit('dataUpdate', {name: this.query.name, data: new_data});
+}
+```
+## DataSychonizer
+Then we need to decouple all these stuff, first create a class to handle the data sychonization for each query. 
+This one can only handle MySQL queries, but you can continue the decoupling to support more databases.
+``` javascript DataSynchronizor
+var debug = require('debug')('DataSync');
+var g_mysql = require('mysql');
 
+function extend(orig, extended) {
+    for (var key in extended) {
+        if (orig.hasOwnProperty(key)) {
+            orig[key] = extended[key]
+        }
+    }
+};
+
+function DataSynchronizer(dbconfig, query, options, onUpdateFun) {
+    this.dbconfig = dbconfig || g_dbconfig;
+    this.connection = g_mysql.createConnection(this.dbconfig);
+    this.query = query;
+    this.options = {
+        connect_retry_timeout: 2000,
+        data_refresh_interval: 3000
+    };
+    extend(this.options, options||{});
+    this.data = {};
+    this.onUpdateFun = onUpdateFun || null;
+    this.lastUpdateTime = 0;
+}
+
+DataSynchronizer.prototype.mergediff = function(new_data) {
+    var diff = {needUpdate:false, data:{}};
+    var diff_data = diff.data;
+
+    for (var key in new_data) {
+        if (!this.data.hasOwnProperty(key) || JSON.stringify(this.data[key])!== JSON.stringify(new_data[key])) {
+            diff.needUpdate = true;
+            this.data[key] = new_data[key];
+            diff_data[key] = new_data[key];
+        }
+    }
+
+    if (this.query.num && Object.keys(this.data).length > this.query.num) {
+        var ordered = Object.keys(this.data).sort();
+        var delNum = ordered.length - this.query.num;
+        for (var i = 0; i < delNum; i++) {
+            delete this.data[ordered[i]];
+        }
+    }
+    return diff;
+}
+
+DataSynchronizer.prototype.start = function(arg) {
+    var obj = arg||this;
+    debug(g_mysql.format(this.query.query_string, this.lastUpdateTime));
+    this.connection.query(g_mysql.format(this.query.query_string, this.lastUpdateTime), function(err, rows, fields) {
+        if (err) {
+            console.log('Query [' + obj.query.query_string + '] failed: ', err);
+        } else {
+            debug('query success. rows: ', rows.length);
+            if (rows && rows.length >= 0) {
+                var new_data = {};
+                for (var i = 0; i < rows.length; i++)
+                {
+                    var row = {};  var row_key = '';
+                    for (var field in rows[i]) {
+                        var value = rows[i][field];
+                        if (value instanceof Date) {
+                            value = value.getTime();
+                        }
+                        if (field === 'updateTime') {
+                            if (rows[i][field] > obj.lastUpdateTime) {
+                                obj.lastUpdateTime = rows[i][field];
+                            }
+                        } else if (field === obj.query.key) {
+                            row_key = value;
+                        } else {
+                            row[field] = value;
+                        }
+                    }
+                    new_data[row_key] = row;
+                }
+                var diff = obj.mergediff(new_data);
+                //debug(diff);
+                if (diff.needUpdate) {
+                    obj.onUpdateFun(diff.data);
+                }
+            }
+        }
+        setTimeout(function() {obj.start(obj)}, obj.options.data_refresh_interval);
+    });
+};
+
+module.exports = DataSynchronizer;
+```
+## Data Model
+Each room represents a chart. Each chart contains several series. Each series has a `DataSynchronizer`. 
+Different charts can have common data series, thus each `DataSynchronizer` should be registered to several rooms. 
+As for the user authorizations, you can bind them with charts or even series, depends on your needs.
+
+Going into too much details is not the purpose of this article, I'd better publish a open-source project with my work later. 
+Thanks for reading. :)
