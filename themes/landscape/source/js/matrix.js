@@ -90,9 +90,14 @@ bDesc = false;
         window.addEventListener('resize', resize);
         document.getElementById('title').addEventListener('mouseover', function() {
             bScrolling = true;
+            for(var i in scrollText) {
+                moveLeft(scrollText[i]);
+            }
+            tweenScrolling.play();
         });
         document.getElementById('title').addEventListener('mouseout', function() {
             bScrolling = false;
+            tweenScrolling.pause();
         });
         document.addEventListener( 'keydown', function(ev) {
             var keyCode = ev.keyCode || ev.which;
@@ -106,22 +111,32 @@ bDesc = false;
         if (bDesc) {
             //remove desc
             animateHeader = true;
+            tweenPoints.pause();
+            tweenVal.pause();
             document.getElementById('desc-links').className ='links';
             document.getElementById('title').className = 'main-title';
             document.getElementById('json-desc').className = 'title-desc';
             document.getElementById('demo-canvas').className = '';
-            document.getElementById('scroll-btn').style.visibility = 'hidden';
+            setTimeout(function() {
+                document.getElementById('scroll-btn').style.visibility = 'hidden';
+                document.getElementById('json-desc').style.visibility = 'hidden';
+                document.getElementById('desc-links').style.visibility = 'hidden';
+            }, 500);
             bDesc = false;
         } else {
             //activate desc
             animateHeader = false;
+            tweenPoints.resume();
+            tweenVal.resume();
+            document.getElementById('json-desc').style.visibility = 'visible';
+            document.getElementById('desc-links').style.visibility = 'visible';
             document.getElementById('desc-links').className ='links desc-active';
             document.getElementById('title').className = 'main-title desc-active';
             document.getElementById('json-desc').className = 'title-desc desc-active';
             document.getElementById('demo-canvas').className = 'blur';
             setTimeout(function() {
                 document.getElementById('scroll-btn').style.visibility = 'visible';
-            }, 500);
+            }, 300);
             bDesc = true;
         }
     }
@@ -161,13 +176,10 @@ bDesc = false;
             shiftPoint(points[i]);
             shiftVal(points[i]);
         }
-        for(var i in scrollText) {
-            moveLeft(scrollText[i]);
-        }
     }
 
     function animate() {
-        if(animateHeader) {
+        if(animateHeader && !bDesc) {
             resetHeader();
             for(var i in points) {
                 // detect points in range
@@ -196,7 +208,7 @@ bDesc = false;
     }
 
     function moveLeft(p) {
-        TweenLite.to(p.pos, 10, {
+        tweenScrolling = TweenLite.to(p.pos, 10, {
             x: p.pos.originX - width*0.6,
             ease: Linear.easeNone,
             onComplete: function() {
@@ -207,7 +219,7 @@ bDesc = false;
     }
 
     function shiftPoint(p) {
-        TweenLite.to(p, 1+1*Math.random(), {
+        tweenPoints = TweenLite.to(p, 1+1*Math.random(), {
             x: p.originX + charSize* Math.round(5*(Math.random()*2 - 1)),
             y: p.originY + charSize* Math.round(5*(Math.random()*2 - 1)),
 
@@ -219,9 +231,8 @@ bDesc = false;
 
     function shiftVal(p) {
         p.code.val = Math.random().toString(2).substring(7,8);
-        setTimeout(function(){
-            shiftVal(p);
-        }, 50);
+        tweenVal = TweenLite.delayedCall(0.21, shiftVal, [p]);
+        //setTimeout(function() {shiftVal(p);}, 50);
     }
 
 
