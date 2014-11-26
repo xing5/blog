@@ -24,6 +24,12 @@ bDesc = false;
 
         charSize = 15;
         pointInterval = 2;
+        animateRange = 150;
+        animateCircleOne = animateRange*animateRange/9;
+        animateCircleTwo = 4*animateRange*animateRange/9;
+        animateCircleThree = animateRange*animateRange;
+
+
 
         pc = document.createElement('canvas');
         pc.width = 2 * charSize;
@@ -45,14 +51,11 @@ bDesc = false;
                 var px = x + Math.floor(Math.random()*pointInterval) * charSize;
                 var py = y + Math.floor(Math.random()*pointInterval) * charSize;
                 var p = {x: px, originX: px, y: py, originY: py};
+                // assign a code to each point
+                var c = new Code(p, Math.random()>0.5?'1':'0', '18,91,30');
+                p.code = c;
                 points.push(p);
             }
-        }
-
-        // assign a code to each point
-        for(var i in points) {
-            var c = new Code(points[i], Math.random().toString(2).substring(7,8), '18,91,30');
-            points[i].code = c;
         }
 
         scrollText = generateText('PRESS I FOR MORE INFORMATION');
@@ -90,14 +93,9 @@ bDesc = false;
         window.addEventListener('resize', resize);
         document.getElementById('title').addEventListener('mouseover', function() {
             bScrolling = true;
-            for(var i in scrollText) {
-                moveLeft(scrollText[i]);
-            }
-            tweenScrolling.play();
         });
         document.getElementById('title').addEventListener('mouseout', function() {
             bScrolling = false;
-            tweenScrolling.pause();
         });
         document.addEventListener( 'keydown', function(ev) {
             var keyCode = ev.keyCode || ev.which;
@@ -111,8 +109,7 @@ bDesc = false;
         if (bDesc) {
             //remove desc
             animateHeader = true;
-            tweenPoints.pause();
-            tweenVal.pause();
+            animate();
             document.getElementById('desc-links').className ='links';
             document.getElementById('title').className = 'main-title';
             document.getElementById('json-desc').className = 'title-desc';
@@ -126,8 +123,6 @@ bDesc = false;
         } else {
             //activate desc
             animateHeader = false;
-            tweenPoints.resume();
-            tweenVal.resume();
             document.getElementById('json-desc').style.visibility = 'visible';
             document.getElementById('desc-links').style.visibility = 'visible';
             document.getElementById('desc-links').className ='links desc-active';
@@ -176,26 +171,42 @@ bDesc = false;
             shiftPoint(points[i]);
             shiftVal(points[i]);
         }
+        for(var i in scrollText) {
+            moveLeft(scrollText[i]);
+        }
     }
 
     function animate() {
-        if(animateHeader && !bDesc) {
+        if(animateHeader) {
             resetHeader();
             for(var i in points) {
                 // detect points in range
-                if(Math.abs(getDistance(target, points[i])) < 4000) {
+
+                // filter those not even in the square
+                if (Math.abs(points[i].x - target.x) > animateRange || Math.abs(points[i].y - target.y) > animateRange ) {
+                    points[i].active = 0;
+                    points[i].code.active = 0;
+                    continue;
+                }
+
+                // calc distance inside the square
+                var dis = getDistance(target, points[i]);
+
+                if(dis < animateCircleOne) {
                     points[i].active = 0.3;
                     points[i].code.active = 0.8;
-                } else if(Math.abs(getDistance(target, points[i])) < 20000) {
+                } else if (dis < animateCircleTwo) {
                     points[i].active = 0.1;
                     points[i].code.active = 0.5;
-                } else if(Math.abs(getDistance(target, points[i])) < 30000) {
+                } else if (dis < animateCircleThree) {
                     points[i].active = 0.02;
                     points[i].code.active = 0.3;
                 } else {
                     points[i].active = 0;
                     points[i].code.active = 0;
+                    continue;
                 }
+
                 points[i].code.draw();
             }
             if(bScrolling) {
@@ -203,12 +214,12 @@ bDesc = false;
                     scrollText[i].draw();
                 }
             }
+            requestAnimationFrame(animate);
         }
-        requestAnimationFrame(animate);
     }
 
     function moveLeft(p) {
-        tweenScrolling = TweenLite.to(p.pos, 10, {
+        TweenLite.to(p.pos, 10, {
             x: p.pos.originX - width*0.6,
             ease: Linear.easeNone,
             onComplete: function() {
@@ -219,7 +230,7 @@ bDesc = false;
     }
 
     function shiftPoint(p) {
-        tweenPoints = TweenLite.to(p, 1+1*Math.random(), {
+        TweenLite.to(p, 1+1*Math.random(), {
             x: p.originX + charSize* Math.round(5*(Math.random()*2 - 1)),
             y: p.originY + charSize* Math.round(5*(Math.random()*2 - 1)),
 
@@ -230,8 +241,8 @@ bDesc = false;
     }
 
     function shiftVal(p) {
-        p.code.val = Math.random().toString(2).substring(7,8);
-        tweenVal = TweenLite.delayedCall(0.21, shiftVal, [p]);
+        p.code.val = Math.random()>0.5?'1':'0';
+        TweenLite.delayedCall(0.21, shiftVal, [p]);
         //setTimeout(function() {shiftVal(p);}, 50);
     }
 
