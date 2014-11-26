@@ -59,4 +59,3 @@ export SPARK_WORKER_CORES=2
 Specify the core numbers in your app. Or in `$SPARK_PATH/conf/spark-defaults.conf`:
 ``` 
 spark.cores.max 2
-```
