@@ -22,8 +22,9 @@ So if you are at work while the bot is running at home, you will see a notificat
 I was quite exciting to see those notifications at the beginning, but now I have totally lost my interests :(
 
 Please see the video demo:
-
 <!-- more -->
+{% youtube WDs5itRxr4c %}
+
 
 Installation
 ------
