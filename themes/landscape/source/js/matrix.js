@@ -69,10 +69,11 @@ bDesc = false;
             codes.push(new Code({
                 x: width*0.7 + i*charSize,
                 originX: width*0.7 + i*charSize,
-                y: height*0.2,
-                originY: height*0.2
-            }, chars[i-1],'160,160,160'));
+                y: height*0.7,
+                originY: height*0.7
+            }, chars[i-1],'18,91,30'));
         }
+        codes[21].color = '18,91,30';
         return codes;
     }
 
@@ -100,6 +101,7 @@ bDesc = false;
         document.addEventListener( 'keydown', function(ev) {
             var keyCode = ev.keyCode || ev.which;
             if( keyCode === 73 || keyCode == 27 ) {
+                renderPoints();
                 toggleDesc(ev);
             }
         });
@@ -179,44 +181,52 @@ bDesc = false;
         }
     }
 
+    function renderPoints() {
+        resetHeader();
+        for(var i in points) {
+            // detect points in range
+
+            // filter those not even in the square
+            if (Math.abs(points[i].x - target.x) > animateRange || Math.abs(points[i].y - target.y) > animateRange ) {
+                points[i].active = 0;
+                points[i].code.active = 0;
+                continue;
+            }
+
+            // calc distance inside the square
+            var dis = getDistance(target, points[i]);
+
+            if(dis < animateCircleOne) {
+                points[i].active = 0.3;
+                points[i].code.active = 0.8;
+            } else if (dis < animateCircleTwo) {
+                points[i].active = 0.1;
+                points[i].code.active = 0.5;
+            } else if (dis < animateCircleThree) {
+                points[i].active = 0.02;
+                points[i].code.active = 0.3;
+            } else {
+                points[i].active = 0;
+                points[i].code.active = 0;
+                continue;
+            }
+
+            points[i].code.draw();
+        }
+    }
+
+    function renderText() {
+        if(bScrolling) {
+            for(var i in scrollText) {
+                scrollText[i].draw();
+            }
+        }
+    }
+
     function animate() {
         if(animateHeader) {
-            resetHeader();
-            for(var i in points) {
-                // detect points in range
-
-                // filter those not even in the square
-                if (Math.abs(points[i].x - target.x) > animateRange || Math.abs(points[i].y - target.y) > animateRange ) {
-                    points[i].active = 0;
-                    points[i].code.active = 0;
-                    continue;
-                }
-
-                // calc distance inside the square
-                var dis = getDistance(target, points[i]);
-
-                if(dis < animateCircleOne) {
-                    points[i].active = 0.3;
-                    points[i].code.active = 0.8;
-                } else if (dis < animateCircleTwo) {
-                    points[i].active = 0.1;
-                    points[i].code.active = 0.5;
-                } else if (dis < animateCircleThree) {
-                    points[i].active = 0.02;
-                    points[i].code.active = 0.3;
-                } else {
-                    points[i].active = 0;
-                    points[i].code.active = 0;
-                    continue;
-                }
-
-                points[i].code.draw();
-            }
-            if(bScrolling) {
-                for(var i in scrollText) {
-                    scrollText[i].draw();
-                }
-            }
+            renderPoints();
+            renderText();
         }
         requestAnimationFrame(animate);
     }
