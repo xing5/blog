@@ -109,7 +109,6 @@ bDesc = false;
         if (bDesc) {
             //remove desc
             animateHeader = true;
-            animate();
             document.getElementById('desc-links').className ='links';
             document.getElementById('title').className = 'main-title';
             document.getElementById('json-desc').className = 'title-desc';
@@ -120,6 +119,10 @@ bDesc = false;
                 document.getElementById('desc-links').style.visibility = 'hidden';
             }, 500);
             bDesc = false;
+
+            for(var i in points) {
+                shiftVal(points[i]);
+            }
         } else {
             //activate desc
             animateHeader = false;
@@ -214,8 +217,8 @@ bDesc = false;
                     scrollText[i].draw();
                 }
             }
-            requestAnimationFrame(animate);
         }
+        requestAnimationFrame(animate);
     }
 
     function moveLeft(p) {
@@ -241,9 +244,10 @@ bDesc = false;
     }
 
     function shiftVal(p) {
+        if (!animateHeader) return;
         p.code.val = Math.random()>0.5?'1':'0';
-        TweenLite.delayedCall(0.21, shiftVal, [p]);
-        //setTimeout(function() {shiftVal(p);}, 50);
+        // TweenLite.delayedCall(0.2, shiftVal, [p]);
+        setTimeout(function() {shiftVal(p);}, 210);
     }
 
 
