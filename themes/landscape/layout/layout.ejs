@@ -7,9 +7,9 @@
         <section id="main"><%- body %></section>
         <% if (theme.sidebar && theme.sidebar !== 'bottom'){ %>
           <% if (page.toc === true){ %>
-            <%- partial('_partial/sidebar-toc') %>
+            <%- partial('_partial/sidebar-toc', {fixed: true}) %>
           <% } else {%>
-            <%- partial('_partial/sidebar', null, {cache: false}) %>
+            <%- partial('_partial/sidebar') %>
           <% } %>
         <% } %>
       </div>

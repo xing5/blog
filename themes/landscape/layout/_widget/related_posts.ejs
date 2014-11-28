@@ -1,4 +1,4 @@
-<% if (site.posts.length && page && page.tags && page.tags.length){ 
+<% if (site.posts.length && page && page.tags && page.tags.length){
   var pw = [];
   site.posts.forEach(function(post, i){
     if (post.title === page.title) return;
@@ -20,7 +20,7 @@
   <%
     pw.sort(function(a,b){return b.weight - a.weight;}).forEach(function(obj, i) {
       if (i < 5) {
-  %> 
+  %>
     <li>
       <a href="<%- url_for(site.posts.eq(obj.index).path) %>"><%= site.posts.eq(obj.index).title || '(no title)' %></a>
     </li>
@@ -31,7 +31,7 @@
         </ul>
       </div>
     </div>
-<% 
-  } 
-} 
+<%
+  }
+}
 %>
