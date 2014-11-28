@@ -3,7 +3,7 @@
   <div id="container">
     <div id="wrap">
       <%- partial('_partial/header', null, {cache: !config.relative_link}) %>
-      <div class="outer">
+      <div id="main-wrap" class="outer">
         <section id="main"><%- body %></section>
         <% if (theme.sidebar && theme.sidebar !== 'bottom'){ %>
           <% if (page.toc === true){ %>

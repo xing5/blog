@@ -1,4 +1,13 @@
 (function($){
+  if ($('#sidebar').hasClass('fixed')) {
+    var ratio = $('#sidebar').width()/$('#sidebar').parent().width();
+    $('#sidebar').width(
+      $('#sidebar').width() 
+      - 2*parseFloat($('#sidebar').parent().css('padding-right'))*ratio);
+    $('#wrap').scroll(function(){
+      $('#sidebar').css('top', Math.max($(this).scrollTop()-100, 0));
+    });
+  }
   // Search
   var $searchWrap = $('#search-form-wrap'),
     isSearchAnim = false,

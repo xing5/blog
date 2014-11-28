@@ -46,11 +46,28 @@ module.exports = function (grunt) {
                     'public/index.html': ['public/index.html']
                 }
             }
+        },
+
+        htmlmin: {
+            dist: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'public/',
+                    src: '**/*.html',
+                    dest: 'public/'
+                }]
+            }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.registerTask('default', ['cssmin', 'uglify', 'processhtml', 'exec']);
+    grunt.registerTask('ultmin', ['cssmin', 'uglify', 'processhtml', 'htmlmin']);
 };
