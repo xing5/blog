@@ -9,7 +9,7 @@
           <% if (page.toc === true){ %>
             <%- partial('_partial/sidebar-toc') %>
           <% } else {%>
-            <%- partial('_partial/sidebar', null, {cache: !config.relative_link}) %>
+            <%- partial('_partial/sidebar', null, {cache: false}) %>
           <% } %>
         <% } %>
       </div>
