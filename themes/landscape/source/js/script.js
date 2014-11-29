@@ -10,7 +10,7 @@
   $('#wrap').scroll(function(){
       var offset = $(this).scrollTop();
       $('#sidebar.fixed').css('top', Math.max(offset-100, 0));
-      if (offset > $('#sidebar').height()) {
+      if (offset > $('#sidebar').height() && !$('#sidebar').hasClass('fixed')) {
         $('#btn-btt').show();
       } else {
         $('#btn-btt').hide();
