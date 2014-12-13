@@ -2,7 +2,7 @@
 menu:
   Home: /
   Archives: /archives
-  About: http://resume.xingwu.me/
+  About: /about
 rss: /atom.xml
 
 # Content
