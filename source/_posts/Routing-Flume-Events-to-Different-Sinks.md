@@ -1,4 +1,4 @@
-title: Routing Flume Events to Different Sinks
+title: Routing Flume Events to Multiple Sinks
 date: 2014-10-11 15:07:46 -0400
 comments: true
 categories:
@@ -9,7 +9,7 @@ tags:
 - Route
 ---
 
-When importing data using [Flume](http://flume.apache.org/), you might want to route Flume events to different destinations (e.g.: different directories in HDFS) based on their content.
+When importing data using [Flume](http://flume.apache.org/), you might want to route Flume events to multiple destinations (e.g.: different directories in HDFS) based on their content.
 Flume has a functionality called [Multiplexing](https://flume.apache.org/FlumeUserGuide.html#multiplexing-the-flow) to achieve this goal, this article is a guide to the configuration.
 
 <!-- more -->

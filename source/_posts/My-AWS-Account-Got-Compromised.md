@@ -29,6 +29,8 @@ Then I replied the case that Amazon opened for me in the support page. I left my
 I explained what happened and asked them how to deal with the $20,000 bill.
 Fortunetely, they told me that if they confirmed that my account was compromised after they reviewed my case, I will not be charged. Right now I am still waiting for the result. I will update the post when it's over.
 
+**[UPDATE - Dec 31, 2014]** Amazon sent me a $20,177.81 USD credit to my account to offset the charges due to the compromise, which has covered my complete December bill.
+
 ## How to prevent?
 Well, of course you should never put your keys in public. Moreover, I think you should never use these root credentials.
 It is better to create IAM users with limited permissions and IP whitelist.
