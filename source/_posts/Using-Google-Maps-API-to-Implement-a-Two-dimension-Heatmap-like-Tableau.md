@@ -93,7 +93,16 @@ map = new google.maps.Map(document.getElementById('map'), myOptions);
 Now we load the data from USGS and create the layer.
 ``` javascript Load Earthquake Data
 var heatmap_data = {};
-$.getJSON('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp?callback=?')
+// Update @ Feb. 6, 2015. getJSON didn't work because any requests with parameters to the url will get a 403 code.
+//$.getJSON('http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp?callback=?') 
+$.ajax({
+    url:'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp', 
+    jsonp: false, 
+    jsonpCallback:'eqfeed_callback', 
+    cache: true, 
+    dataType:'jsonp'
+});
+
 eqfeed_callback = function(rst) {
     $('.num').html(rst.metadata.count);
     var generate_time = new Date(rst.metadata.generated);
