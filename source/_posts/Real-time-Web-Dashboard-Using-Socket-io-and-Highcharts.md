@@ -18,7 +18,7 @@ This article is a guide to implement a real-time web dashboard using Socket.io. 
 
 <!-- more -->
 
-#Quick Start
+# Quick Start
 
 Let us start with an example, a single chart that automatically updates in real-time. In this example, the data is stored in MySQL. 
 ## Server Side
@@ -248,7 +248,7 @@ Please see the corresponding code for the client as below. [Highcharts](http://h
 </html>
 ```
 
-#System Design
+# System Design
 
 Now we consider a generic real-time web analytics system, with which we can easily add more charts and configure different data sources.
 

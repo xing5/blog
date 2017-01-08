@@ -60,7 +60,7 @@ function init() {
 function loadScript() {
   var script = document.createElement('script');
   script.type = 'text/javascript';
-  script.src = 'https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true&callback=init';
+  script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCryD5oP1LSHLcOmoGPjSYZw7T4iNMz3o0&libraries=visualization&callback=init';
   document.body.appendChild(script);
 
 }

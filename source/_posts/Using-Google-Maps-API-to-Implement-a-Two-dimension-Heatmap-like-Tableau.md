@@ -23,13 +23,13 @@ You can also use both of them to get a two-dimensional heatmap.
 
 <!-- more -->
 
-##Demo
+## Demo
 Please see the demos below. I implement two earthquakes heatmaps using the real-time GeoJSON data from [USGS](http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php). 
 The first one is implemented with Google's built-in Heatmap layer. 
 The second one creates a custom heatmap layer with Google Maps API's [Marker](https://developers.google.com/maps/documentation/javascript/markers) and [OverlayView](https://developers.google.com/maps/documentation/javascript/reference#OverlayView). 
 The color of each point stands for the magnitude, and the size represents the significance, which is determined on a number of factors, including: magnitude, maximum MMI, felt reports, and estimated impact.
 
-###Google Heatmap Layer
+### Google Heatmap Layer
 
 <div style="position:relative; margin:auto;height:400px; width:800px;">
     <div id='google-heatmap' style="height:100%; width:100%;"></div>
@@ -39,7 +39,7 @@ The color of each point stands for the magnitude, and the size represents the si
     </div>
 </div>
 
-###Custom Heatmap Layer
+### Custom Heatmap Layer
 
 <div style="position:relative; margin:auto;height:400px; width:800px;">
     <div id='map' style="height:100%; width:100%;"></div>
@@ -50,22 +50,22 @@ The color of each point stands for the magnitude, and the size represents the si
 </div>
 
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCryD5oP1LSHLcOmoGPjSYZw7T4iNMz3o0&libraries=visualization"></script>
 <script src="/downloads/code/rainbowvis.js"></script>
 <script src="/downloads/code/circleheatmap.js"></script>
 <script src="/downloads/code/heatmap_post.js"></script>
 
-##Implementation
+## Implementation
 
 I implement a class named `CircleHeatMapLayer`. It inherits Google Maps API's `OverlayView` so it can be used just like the other built-in layers. 
 It's ready-to-use but has three dependencies, which are *JQuery*, *Google Maps API's visualization lib*, and [RainbowVis-JS](https://github.com/anomal/RainbowVis-JS).
 
-###CircleHeatMapLayer Class
+### CircleHeatMapLayer Class
 
 The source code of the custom layer is as below.
 {% include_code lang:javascript /circleheatmap.js %}
 
-###How to Use
+### How to Use
 
 Let's take the demo as an example. First we need to create a Google map:
 

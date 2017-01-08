@@ -11,7 +11,7 @@ tags:
 If you need a single-node MapR cluster and you are not able to use the official MapR sandbox image, you can use this guide to install MapR on a CentOS.
 
 <!-- more -->
-##MapR Installation:
+## MapR Installation:
 
 1\. Add a file maprtech.repo to /etc/yum.repo.d/
 ```
