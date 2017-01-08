@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MapR M3 Single-node Cluster Installation on CentOS 6 | Xing&#39;s</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="If you need a single-node MapR cluster and you are not able to use the official MapR sandbox image, you can use this guide to install MapR on a CentOS.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MapR M3 Single-node Cluster Installation on CentOS 6">
+<meta property="og:url" content="http://xingwu.me/2014/09/21/MapR-M3-Single-node-Cluster-Installation-on-CentOS-6/index.html">
+<meta property="og:site_name" content="Xing's">
+<meta property="og:description" content="If you need a single-node MapR cluster and you are not able to use the official MapR sandbox image, you can use this guide to install MapR on a CentOS.">
+<meta property="og:updated_time" content="2017-01-08T00:47:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MapR M3 Single-node Cluster Installation on CentOS 6">
+<meta name="twitter:description" content="If you need a single-node MapR cluster and you are not able to use the official MapR sandbox image, you can use this guide to install MapR on a CentOS.">
+<meta name="twitter:creator" content="@coolwuxing">
+  
+    <link rel="alternative" href="/atom.xml" title="Xing&#39;s" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Inconsolata:400,700|Open+Sans:700,400" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-43935113-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <div id="header-title">
+        <h1 id="logo-wrap">
+          <a href="/" id="logo">Xing&#39;s
+          
+              <span id="subtitle">Coding the Future</span>
+          
+          </a>
+        </h1>
+      </div>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xingwu.me"></form>
+      </div>
+    </div>
+  </div>
+</div>
+      <div id="main-wrap" class="outer">
+        <section id="main"><article id="post-MapR-M3-Single-node-Cluster-Installation-on-CentOS-6" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/21/MapR-M3-Single-node-Cluster-Installation-on-CentOS-6/" class="article-date">
+  <time datetime="2014-09-21T22:35:46.000Z" itemprop="datePublished">Sep 21 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MapR M3 Single-node Cluster Installation on CentOS 6
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>If you need a single-node MapR cluster and you are not able to use the official MapR sandbox image, you can use this guide to install MapR on a CentOS.</p>
+<a id="more"></a>
+<h2 id="MapR-Installation"><a href="#MapR-Installation" class="headerlink" title="MapR Installation:"></a>MapR Installation:</h2><p>1. Add a file maprtech.repo to /etc/yum.repo.d/
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[maprtech]</div><div class="line"> name=MapR Technologies</div><div class="line"> baseurl=http://package.mapr.com/releases/v3.1.1/redhat/</div><div class="line"> enabled=1</div><div class="line"> gpgcheck=0</div><div class="line"> protect=1</div><div class="line"> </div><div class="line"> [maprecosystem]</div><div class="line"> name=MapR Technologies</div><div class="line"> baseurl=http://package.mapr.com/releases/ecosystem/redhat</div><div class="line"> enabled=1</div><div class="line"> gpgcheck=0</div><div class="line"> protect=1</div></pre></td></tr></table></figure></p>
+<p>2. Installation.
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">wget http://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm</div><div class="line">rpm -Uvh epel-release-*.rpm</div><div class="line"></div><div class="line">wget http://package.mapr.com/releases/v3.1.1/redhat/mapr-setup</div><div class="line">chmod 755 mapr-setup</div><div class="line">./mapr-setup</div></pre></td></tr></table></figure></p>
+<p>3. Create a configuration file for single node environment
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"># Each Node section can specify nodes in the following format</div><div class="line"># Node: disk1, disk2, disk3</div><div class="line"># Specifing disks is optional. In which case the default disk information</div><div class="line"># from the Default section will be picked up</div><div class="line">[Control_Nodes]</div><div class="line">#This is the hostname of the node. Run &apos;hostname&apos; to get it.</div><div class="line">CentOS65-001</div><div class="line">[Data_Nodes]</div><div class="line">[Client_Nodes]</div><div class="line">[Options]</div><div class="line">MapReduce = true</div><div class="line">HBase = true</div><div class="line">M7 = false</div><div class="line">ControlNodesAsDataNodes = true</div><div class="line">WirelevelSecurity = false</div><div class="line">LocalRepo = false</div><div class="line">[Defaults]</div><div class="line">ClusterName = my.cluster.com</div><div class="line">User = mapr</div><div class="line">Group = mapr</div><div class="line">Password = mapr</div><div class="line">UID = 2000</div><div class="line">GID = 2000</div><div class="line">Disks = /dev/sdb</div><div class="line">CoreRepoURL = http://package.mapr.com/releases</div><div class="line">EcoRepoURL = http://package.mapr.com/releases/ecosystem</div><div class="line">Version = 3.1.1</div><div class="line">MetricsDBHost</div><div class="line">MetricsDBUser</div><div class="line">MetricsDBPassword</div><div class="line">MetricsDBSchema</div></pre></td></tr></table></figure></p>
+<p>4. Run <code>/opt/mapr-maprinstaller/bin/install</code>. 
+Follow the instructions, remember to load the configuration file above.</p>
+<p>5. After installation, log in <code>https://hostname:8443</code> with user <code>mapr</code> pwd <code>mapr</code>.</p>
+<p>6. Register your license. Otherwise some services couldn’t launch.</p>
+<p>7. After registration, reboot (or just simply stop all the MapR services, but I suggest you reboot) and start mapr services:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">service mapr-zookeeper start</div><div class="line">service mapr-warden start</div></pre></td></tr></table></figure>
+<p>8. Then you are good to go with MapR Hadoop! Try some examples.
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hadoop jar /opt/mapr/hadoop/hadoop-0.20.2/hadoop-0.20.2-dev-examples.jar pi 2 50</div></pre></td></tr></table></figure></p>
+<h2 id="Spark-Installation"><a href="#Spark-Installation" class="headerlink" title="Spark Installation"></a>Spark Installation</h2><p>This part is from the <a href="http://doc.mapr.com/display/MapR/Spark+and+Shark" target="_blank" rel="external">original guide</a>, with a few modifications.</p>
+<p>1. Install Scala 2.10+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum localinstall http://www.scala-lang.org/files/archive/scala-2.11.2.rpm</div></pre></td></tr></table></figure></p>
+<p>2. Install Spark
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install mapr-spark-master</div></pre></td></tr></table></figure></p>
+<p>3. change the owner of spark dir to mapr (or warden cannot start spark due to file permission)
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chown -R mapr:mapr /opt/mapr/spark</div></pre></td></tr></table></figure></p>
+<p>4. refresh warden to start spark
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/opt/mapr/server/configure.sh -R</div></pre></td></tr></table></figure></p>
+<p>5. Edit the configuration of worker node as you wish. (default is localhost for single node)
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /opt/mapr/spark/spark-1.0.2/conf/slaves</div></pre></td></tr></table></figure></p>
+<p>6. Start slave (spark master has been started by warden)
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">su mapr</div><div class="line">/opt/mapr/spark/spark-1.0.2/sbin/start-slaves.sh</div></pre></td></tr></table></figure></p>
+<p>7. check spark-master website (<a href="http://hostname:8080/" target="_blank" rel="external">http://hostname:8080/</a>) to see if work nodes are set.</p>
+<p>8. run spark-pi example
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/opt/mapr/spark/spark-1.0.2/bin/run-example org.apache.spark.examples.SparkPi 10</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://xingwu.me/2014/09/21/MapR-M3-Single-node-Cluster-Installation-on-CentOS-6/" data-id="cixny1n3t000a07pgfbwo3ebj" class="article-share-link">Share</a>
+      
+        <a href="http://xingwu.me/2014/09/21/MapR-M3-Single-node-Cluster-Installation-on-CentOS-6/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CentOS/">CentOS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Installation/">Installation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MapR/">MapR</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/10/04/Implement-a-Flume-Deserializer-Plugin-to-Import-XML-Files/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Implement a Flume Deserializer Plugin to Import XML Files
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+            <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Game/">Game</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget recents">
+      <ul>
+        
+          <li>
+            <a href="/2014/12/11/Build-A-Resume-From-Your-LinkedIn-Profile/">Build A Resume From Your LinkedIn Profile</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/10/My-AWS-Account-Got-Compromised/">My AWS Account Got Compromised</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/26/Share-My-Diablo-3-Bot-Ghom-Farming-Auto-Pick-Up-Legendary-Notification/">Share My Diablo 3 Bot: Ghom Farming/Auto Pick Up/Legendary Notification</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/">Time-lapse Star Rotation Effect Using CSS Animation</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/">Hexo Code Block Bugs: Comments Style and Empty Lines</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Amazon/" style="font-size: 10px;">Amazon</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/Autobot/" style="font-size: 10px;">Autobot</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Big-Data/" style="font-size: 20px;">Big Data</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/Bootstrap/" style="font-size: 10px;">Bootstrap</a> <a href="/tags/Bot/" style="font-size: 10px;">Bot</a> <a href="/tags/Bubble/" style="font-size: 10px;">Bubble</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Carousel/" style="font-size: 10px;">Carousel</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/Chart/" style="font-size: 10px;">Chart</a> <a href="/tags/Circle/" style="font-size: 10px;">Circle</a> <a href="/tags/Code-Block/" style="font-size: 10px;">Code Block</a> <a href="/tags/Diablo-3/" style="font-size: 10px;">Diablo 3</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Flume/" style="font-size: 17.5px;">Flume</a> <a href="/tags/Google-Maps/" style="font-size: 10px;">Google Maps</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Heatmap/" style="font-size: 10px;">Heatmap</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Installation/" style="font-size: 10px;">Installation</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Javascript/" style="font-size: 15px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 10px;">LaTeX</a> <a href="/tags/LinkedIn/" style="font-size: 10px;">LinkedIn</a> <a href="/tags/MapR/" style="font-size: 10px;">MapR</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Real-time/" style="font-size: 10px;">Real-time</a> <a href="/tags/Resume/" style="font-size: 10px;">Resume</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Socket-io/" style="font-size: 10px;">Socket.io</a> <a href="/tags/Spark/" style="font-size: 12.5px;">Spark</a> <a href="/tags/Spark-Streaming/" style="font-size: 12.5px;">Spark Streaming</a> <a href="/tags/Star-Rotation/" style="font-size: 10px;">Star Rotation</a> <a href="/tags/Tableau/" style="font-size: 10px;">Tableau</a> <a href="/tags/Theme/" style="font-size: 10px;">Theme</a> <a href="/tags/Time-lapse/" style="font-size: 10px;">Time-lapse</a> <a href="/tags/Troubleshooting/" style="font-size: 10px;">Troubleshooting</a> <a href="/tags/Web/" style="font-size: 15px;">Web</a> <a href="/tags/doT/" style="font-size: 10px;">doT</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+          
+        
+      </div>
+      <div id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a></br>
+      &copy; 2017 Xing Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</div>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'xingwu';
+  
+  var disqus_url = 'http://xingwu.me/2014/09/21/MapR-M3-Single-node-Cluster-Installation-on-CentOS-6/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+    <a href='#logo' id='btn-btt'>^</a>
+  </div>
+</body>
+</html>

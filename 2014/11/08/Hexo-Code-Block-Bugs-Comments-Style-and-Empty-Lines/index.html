@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo Code Block Bugs: Comments Style and Empty Lines | Xing&#39;s</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Hexo is a static blog framework powered by Node.js. It supports embedding code block but there are a few bugs. 
+
+Unclosed html elements in code block. #902
+Problems related to empty lines. #795  
+
+As">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo Code Block Bugs: Comments Style and Empty Lines">
+<meta property="og:url" content="http://xingwu.me/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/index.html">
+<meta property="og:site_name" content="Xing's">
+<meta property="og:description" content="Hexo is a static blog framework powered by Node.js. It supports embedding code block but there are a few bugs. 
+
+Unclosed html elements in code block. #902
+Problems related to empty lines. #795  
+
+As">
+<meta property="og:updated_time" content="2016-11-27T18:38:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo Code Block Bugs: Comments Style and Empty Lines">
+<meta name="twitter:description" content="Hexo is a static blog framework powered by Node.js. It supports embedding code block but there are a few bugs. 
+
+Unclosed html elements in code block. #902
+Problems related to empty lines. #795  
+
+As">
+<meta name="twitter:creator" content="@coolwuxing">
+  
+    <link rel="alternative" href="/atom.xml" title="Xing&#39;s" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Inconsolata:400,700|Open+Sans:700,400" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-43935113-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <div id="header-title">
+        <h1 id="logo-wrap">
+          <a href="/" id="logo">Xing&#39;s
+          
+              <span id="subtitle">Coding the Future</span>
+          
+          </a>
+        </h1>
+      </div>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xingwu.me"></form>
+      </div>
+    </div>
+  </div>
+</div>
+      <div id="main-wrap" class="outer">
+        <section id="main"><article id="post-Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/" class="article-date">
+  <time datetime="2014-11-09T05:36:41.000Z" itemprop="datePublished">Nov 8 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hexo Code Block Bugs: Comments Style and Empty Lines
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://hexo.io" target="_blank" rel="external">Hexo</a> is a static blog framework powered by Node.js. It supports embedding code block but there are a few bugs. </p>
+<ol>
+<li>Unclosed html elements in code block. <a href="https://github.com/hexojs/hexo/issues/902" target="_blank" rel="external">#902</a></li>
+<li>Problems related to empty lines. <a href="https://github.com/hexojs/hexo/pull/795" target="_blank" rel="external">#795</a>  </li>
+</ol>
+<p>As you can see, these problems do not exist in my blog. The following patch can solve these bugs. I have sent a <a href="https://github.com/hexojs/hexo/pull/904" target="_blank" rel="external">pull request</a> to the <a href="https://github.com/hexojs/hexo" target="_blank" rel="external">Hexo project</a> on Github. 
+<a id="more"></a></p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">diff --git a/lib/util/highlight.js b/lib/util/highlight.js</div><div class="line">index 293ef55..5e46369 100644</div><div class="line"><span class="comment">--- a/lib/util/highlight.js</span></div><div class="line"><span class="comment">+++ b/lib/util/highlight.js</span></div><div class="line">@@ -5,6 +5,19 @@ hljs.configure(&#123;</div><div class="line">   classPrefix: ''</div><div class="line"> &#125;);</div><div class="line"></div><div class="line"><span class="addition">+hljs.highlightByLine = function(name, value, ignore_illegals) &#123;</span></div><div class="line"><span class="addition">+  var result = &#123;value: ''&#125;;</span></div><div class="line"><span class="addition">+  var lines = value.split('\n');</span></div><div class="line"><span class="addition">+  var state = null;</span></div><div class="line"><span class="addition">+  lines.forEach(function(line, index) &#123;</span></div><div class="line"><span class="addition">+    if (index !== 0) result.value += '\n';</span></div><div class="line"><span class="addition">+    var tmpRst = hljs.highlight(name, line, ignore_illegals, state);</span></div><div class="line"><span class="addition">+    state = tmpRst.top;</span></div><div class="line"><span class="addition">+    result.value += tmpRst.value;</span></div><div class="line"><span class="addition">+  &#125;);</span></div><div class="line"><span class="addition">+  return result;</span></div><div class="line"><span class="addition">+&#125;;</span></div><div class="line"><span class="addition">+</span></div><div class="line"> var alias = &#123;</div><div class="line">   js: 'javascript',</div><div class="line">   jscript: 'javascript',</div><div class="line">@@ -74,7 +87,7 @@ module.exports = function(str, options)&#123;</div><div class="line">     if (keys.indexOf(lang) !== -1) lang = alias[lang];</div><div class="line"></div><div class="line">     try &#123;</div><div class="line"><span class="deletion">-      compiled = hljs.highlight(lang, str).value;</span></div><div class="line"><span class="addition">+      compiled = hljs.highlightByLine(lang, str).value;</span></div><div class="line">     &#125; catch (e)&#123;</div><div class="line">       compiled = hljs.highlightAuto(str).value;</div><div class="line">     &#125;</div><div class="line">@@ -88,8 +101,12 @@ module.exports = function(str, options)&#123;</div><div class="line">     firstLine = options.first_line;</div><div class="line"></div><div class="line">   lines.forEach(function(item, i)&#123;</div><div class="line"><span class="deletion">-    numbers += '&lt;div class="line"&gt;' + (i + firstLine) + '&lt;/div&gt;';</span></div><div class="line"><span class="deletion">-    content += '&lt;div class="line"&gt;' + item + '&lt;/div&gt;';</span></div><div class="line"><span class="addition">+    if (i !== 0) &#123;</span></div><div class="line"><span class="addition">+      numbers += '\n';</span></div><div class="line"><span class="addition">+      content += '\n';</span></div><div class="line"><span class="addition">+    &#125;</span></div><div class="line"><span class="addition">+    numbers += '&lt;span class="line"&gt;' + (i + firstLine) + '&lt;/span&gt;';</span></div><div class="line"><span class="addition">+    content += '&lt;span class="line"&gt;' + item + '&lt;/span&gt;';</span></div><div class="line">   &#125;);</div><div class="line"></div><div class="line">   var result = '&lt;figure class="highlight' + (options.lang ? ' ' + options.lang : '') + '"&gt;' +</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://xingwu.me/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/" data-id="cixny1n31000207pgfxe1lac7" class="article-share-link">Share</a>
+      
+        <a href="http://xingwu.me/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Blog/">Blog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Bug/">Bug</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Code-Block/">Code Block</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Time-lapse Star Rotation Effect Using CSS Animation
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/04/Stop-Bootstrap-Carousel-from-Auto-sliding-at-the-Last-Slide/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Stop Bootstrap Carousel from Auto-sliding at the Last Slide</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+            <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Game/">Game</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+    <div class="widget-wrap">
+      <h3 class="widget-title">Related</h3>
+      <div class="widget recents">
+        <ul>
+  
+    <li>
+      <a href="/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/">Time-lapse Star Rotation Effect Using CSS Animation</a>
+    </li>
+  
+        </ul>
+      </div>
+    </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget recents">
+      <ul>
+        
+          <li>
+            <a href="/2014/12/11/Build-A-Resume-From-Your-LinkedIn-Profile/">Build A Resume From Your LinkedIn Profile</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/10/My-AWS-Account-Got-Compromised/">My AWS Account Got Compromised</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/26/Share-My-Diablo-3-Bot-Ghom-Farming-Auto-Pick-Up-Legendary-Notification/">Share My Diablo 3 Bot: Ghom Farming/Auto Pick Up/Legendary Notification</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/">Time-lapse Star Rotation Effect Using CSS Animation</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/">Hexo Code Block Bugs: Comments Style and Empty Lines</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Amazon/" style="font-size: 10px;">Amazon</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/Autobot/" style="font-size: 10px;">Autobot</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Big-Data/" style="font-size: 20px;">Big Data</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/Bootstrap/" style="font-size: 10px;">Bootstrap</a> <a href="/tags/Bot/" style="font-size: 10px;">Bot</a> <a href="/tags/Bubble/" style="font-size: 10px;">Bubble</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Carousel/" style="font-size: 10px;">Carousel</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/Chart/" style="font-size: 10px;">Chart</a> <a href="/tags/Circle/" style="font-size: 10px;">Circle</a> <a href="/tags/Code-Block/" style="font-size: 10px;">Code Block</a> <a href="/tags/Diablo-3/" style="font-size: 10px;">Diablo 3</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Flume/" style="font-size: 17.5px;">Flume</a> <a href="/tags/Google-Maps/" style="font-size: 10px;">Google Maps</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Heatmap/" style="font-size: 10px;">Heatmap</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Installation/" style="font-size: 10px;">Installation</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Javascript/" style="font-size: 15px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 10px;">LaTeX</a> <a href="/tags/LinkedIn/" style="font-size: 10px;">LinkedIn</a> <a href="/tags/MapR/" style="font-size: 10px;">MapR</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Real-time/" style="font-size: 10px;">Real-time</a> <a href="/tags/Resume/" style="font-size: 10px;">Resume</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Socket-io/" style="font-size: 10px;">Socket.io</a> <a href="/tags/Spark/" style="font-size: 12.5px;">Spark</a> <a href="/tags/Spark-Streaming/" style="font-size: 12.5px;">Spark Streaming</a> <a href="/tags/Star-Rotation/" style="font-size: 10px;">Star Rotation</a> <a href="/tags/Tableau/" style="font-size: 10px;">Tableau</a> <a href="/tags/Theme/" style="font-size: 10px;">Theme</a> <a href="/tags/Time-lapse/" style="font-size: 10px;">Time-lapse</a> <a href="/tags/Troubleshooting/" style="font-size: 10px;">Troubleshooting</a> <a href="/tags/Web/" style="font-size: 15px;">Web</a> <a href="/tags/doT/" style="font-size: 10px;">doT</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+          
+        
+      </div>
+      <div id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a></br>
+      &copy; 2017 Xing Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</div>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'xingwu';
+  
+  var disqus_url = 'http://xingwu.me/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+    <a href='#logo' id='btn-btt'>^</a>
+  </div>
+</body>
+</html>

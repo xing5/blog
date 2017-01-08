@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Time-lapse Star Rotation Effect Using CSS Animation | Xing&#39;s</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Landscape is the default theme of Hexo 2.4+. 
+I really like the background picture of the header.
+And I think it will be cool if the stars can rotate slowly in the sky.
+With CSS animation we can easil">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Time-lapse Star Rotation Effect Using CSS Animation">
+<meta property="og:url" content="http://xingwu.me/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/index.html">
+<meta property="og:site_name" content="Xing's">
+<meta property="og:description" content="Landscape is the default theme of Hexo 2.4+. 
+I really like the background picture of the header.
+And I think it will be cool if the stars can rotate slowly in the sky.
+With CSS animation we can easil">
+<meta property="og:image" content="http://xingwu.me/images/star-rotation-principle.jpg">
+<meta property="og:image" content="http://xingwu.me/images/newplant-ps.gif">
+<meta property="og:image" content="http://xingwu.me/images/mask.jpg">
+<meta property="og:updated_time" content="2016-11-27T18:38:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Time-lapse Star Rotation Effect Using CSS Animation">
+<meta name="twitter:description" content="Landscape is the default theme of Hexo 2.4+. 
+I really like the background picture of the header.
+And I think it will be cool if the stars can rotate slowly in the sky.
+With CSS animation we can easil">
+<meta name="twitter:image" content="http://xingwu.me/images/star-rotation-principle.jpg">
+<meta name="twitter:creator" content="@coolwuxing">
+  
+    <link rel="alternative" href="/atom.xml" title="Xing&#39;s" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Inconsolata:400,700|Open+Sans:700,400" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-43935113-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <div id="header-title">
+        <h1 id="logo-wrap">
+          <a href="/" id="logo">Xing&#39;s
+          
+              <span id="subtitle">Coding the Future</span>
+          
+          </a>
+        </h1>
+      </div>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xingwu.me"></form>
+      </div>
+    </div>
+  </div>
+</div>
+      <div id="main-wrap" class="outer">
+        <section id="main"><article id="post-Time-lapse-Star-Rotation-Effect-Using-CSS-Animation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/" class="article-date">
+  <time datetime="2014-11-12T04:42:30.000Z" itemprop="datePublished">Nov 11 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Time-lapse Star Rotation Effect Using CSS Animation
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://hexo.io/hexo-theme-landscape/" target="_blank" rel="external">Landscape</a> is the default theme of Hexo 2.4+. 
+I really like the background picture of the header.
+And I think it will be cool if the stars can rotate slowly in the sky.
+With CSS animation we can easily implement this idea:
+<a id="more"></a></p>
+
+<div id="stars-bg">
+<style>
+#stars-bg {
+    overflow: hidden;
+    position:relative; 
+    width: 800px; 
+    height: 300px; 
+    background: #000 url(/images/newplanet-2.jpg) center; 
+    background-size: cover;
+    z-index: 1;
+}
+#stars-mask {
+    position: absolute;
+    width:100%; 
+    height:100%; 
+    background: url(/images/newplanet.png) center;
+    background-size: cover;
+    z-index: 3;
+}
+#stars {
+    top: -800px;
+    left: -300px;
+    position:absolute; 
+    width: 1545px; 
+    height: 1545px; 
+    background: url(/images/stars.gif);
+    z-index: 2;
+    animation: spin 300s infinite linear;
+    -webkit-animation: spin 300s infinite linear;
+    -moz-animation: spin 300s infinite linear;
+    -ms-animation: spin 300s infinite linear;  
+    -webkit-transform-origin: 772px 772px;
+    -moz-transform-origin: 772px 772px;
+    -ms-transform-origin: 772px 772px;
+    transform-origin: 772px 772px;
+    background-size: contain;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+}
+@-moz-keyframes spin {
+  0% {
+    -webkit-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -ms-transform: rotateZ(0deg);
+    transform: rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateZ(360deg);
+    -moz-transform: rotateZ(360deg);
+    -ms-transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -ms-transform: rotateZ(0deg);
+    transform: rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateZ(360deg);
+    -moz-transform: rotateZ(360deg);
+    -ms-transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -webkit-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -ms-transform: rotateZ(0deg);
+    transform: rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateZ(360deg);
+    -moz-transform: rotateZ(360deg);
+    -ms-transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -ms-transform: rotateZ(0deg);
+    transform: rotateZ(0deg);
+  }
+  100% {
+    -webkit-transform: rotateZ(360deg);
+    -moz-transform: rotateZ(360deg);
+    -ms-transform: rotateZ(360deg);
+    transform: rotateZ(360deg);
+  }
+}
+
+</style>
+    <div id="stars-mask"></div>
+    <div id="stars" style="">
+    </div>
+</div>
+
+<p>First we need to process the photos.
+Our goal is to get a clean backgound without stars, a picture of stars with transparent background and
+a solid image as a mask.</p>
+<p><img src="/images/star-rotation-principle.jpg" alt="Three Layers"></p>
+<p>1. To get the background, erase all the stars with the <strong>Spot Healing Brush</strong> and <strong>Clone Stamp</strong> tool in <em>Photoshop</em>.</p>
+<p><img src="/images/newplant-ps.gif" alt="Erase Stars"></p>
+<p>2. The mask is easy, just selete and delete the dark area of the background.</p>
+<p><img src="/images/mask.jpg" alt="Mask"></p>
+<p>3. The stars are hard to extract. You can try the <strong>Magic Wand</strong> or <strong>Background Eraser</strong> tool. 
+And we need to copy the stars several times to get a bigger image so even when it is spinning, the stars can still show up on the background (The size depends on where the center of the rotation is). </p>
+<p>4. Setting up CSS and adjust the animation parameters.</p>
+<figure class="highlight html"><figcaption><span>HTML</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'stars-bg'</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'stars-mask'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'stars'</span> <span class="attr">style</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><figcaption><span>CSS</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#stars-bg</span> &#123;</div><div class="line">    <span class="attribute">overflow</span>: hidden;</div><div class="line">    <span class="attribute">position</span>:relative; </div><div class="line">    <span class="attribute">width</span>: <span class="number">800px</span>; </div><div class="line">    <span class="attribute">height</span>: <span class="number">300px</span>; </div><div class="line">    <span class="attribute">background</span>: <span class="number">#000</span> <span class="built_in">url</span>(/images/newplanet-2.jpg) center; </div><div class="line">    <span class="attribute">background-size</span>: cover;</div><div class="line">    <span class="attribute">z-index</span>: <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-id">#stars-mask</span> &#123;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">width</span>:<span class="number">100%</span>; </div><div class="line">    <span class="attribute">height</span>:<span class="number">100%</span>; </div><div class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(/images/newplanet.png) center;</div><div class="line">    <span class="attribute">background-size</span>: cover;</div><div class="line">    <span class="attribute">z-index</span>: <span class="number">3</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-id">#stars</span> &#123;</div><div class="line">    <span class="attribute">top</span>: -<span class="number">800px</span>;</div><div class="line">    <span class="attribute">left</span>: -<span class="number">300px</span>;</div><div class="line">    <span class="attribute">position</span>:absolute; </div><div class="line">    <span class="attribute">width</span>: <span class="number">1545px</span>; </div><div class="line">    <span class="attribute">height</span>: <span class="number">1545px</span>; </div><div class="line">    <span class="attribute">background</span>: <span class="built_in">url</span>(/images/stars.gif);</div><div class="line">    <span class="attribute">z-index</span>: <span class="number">2</span>;</div><div class="line">    <span class="attribute">animation</span>: spin <span class="number">300s</span> infinite linear;</div><div class="line">    <span class="attribute">-webkit-animation</span>: spin <span class="number">300s</span> infinite linear;</div><div class="line">    <span class="attribute">-moz-animation</span>: spin <span class="number">300s</span> infinite linear;</div><div class="line">    <span class="attribute">-ms-animation</span>: spin <span class="number">300s</span> infinite linear;  </div><div class="line">    <span class="attribute">-webkit-transform-origin</span>: <span class="number">772px</span> <span class="number">772px</span>;</div><div class="line">    <span class="attribute">-moz-transform-origin</span>: <span class="number">772px</span> <span class="number">772px</span>;</div><div class="line">    <span class="attribute">-ms-transform-origin</span>: <span class="number">772px</span> <span class="number">772px</span>;</div><div class="line">    <span class="attribute">transform-origin</span>: <span class="number">772px</span> <span class="number">772px</span>;</div><div class="line">    <span class="attribute">background-size</span>: contain;</div><div class="line">    <span class="attribute">-webkit-background-size</span>: contain;</div><div class="line">    <span class="attribute">-moz-background-size</span>: contain;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">moz</span>-<span class="keyword">keyframes</span> spin &#123;</div><div class="line">  0% &#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">  &#125;</div><div class="line">  100% &#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">webkit</span>-<span class="keyword">keyframes</span> spin &#123;</div><div class="line">  0% &#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">  &#125;</div><div class="line">  100% &#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">@-<span class="keyword">o</span>-<span class="keyword">keyframes</span> spin &#123;</div><div class="line">  0% &#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">  &#125;</div><div class="line">  100% &#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">@<span class="keyword">keyframes</span> spin &#123;</div><div class="line">  0% &#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotateZ</span>(0deg);</div><div class="line">  &#125;</div><div class="line">  100% &#123;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotateZ</span>(360deg);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>The idea in this article is inspired by Joe Howard’s <a href="http://www.pencilscoop.com/2014/04/animating-images-with-css-keyframes/" target="_blank" rel="external">Animating Images With CSS Keyframes</a>. He shows a step-by-step example and the article is really worth reading.</p>
+<p>I create a <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a> theme with this. If you are interested, you can download it <a href="http://github.com/xing5/hexo-theme-animastars" target="_blank" rel="external">here</a>. <a href="http://demo.xingwu.me/animastars" target="_blank" rel="external"><strong><em>Demo</em></strong></a>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://xingwu.me/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/" data-id="cixny1n4r000t07pgxk9egvix" class="article-share-link">Share</a>
+      
+        <a href="http://xingwu.me/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Animation/">Animation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Star-Rotation/">Star Rotation</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Theme/">Theme</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Time-lapse/">Time-lapse</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/11/26/Share-My-Diablo-3-Bot-Ghom-Farming-Auto-Pick-Up-Legendary-Notification/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Share My Diablo 3 Bot: Ghom Farming/Auto Pick Up/Legendary Notification
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hexo Code Block Bugs: Comments Style and Empty Lines</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+            <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Game/">Game</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+    <div class="widget-wrap">
+      <h3 class="widget-title">Related</h3>
+      <div class="widget recents">
+        <ul>
+  
+    <li>
+      <a href="/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/">Hexo Code Block Bugs: Comments Style and Empty Lines</a>
+    </li>
+  
+        </ul>
+      </div>
+    </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget recents">
+      <ul>
+        
+          <li>
+            <a href="/2014/12/11/Build-A-Resume-From-Your-LinkedIn-Profile/">Build A Resume From Your LinkedIn Profile</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/10/My-AWS-Account-Got-Compromised/">My AWS Account Got Compromised</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/26/Share-My-Diablo-3-Bot-Ghom-Farming-Auto-Pick-Up-Legendary-Notification/">Share My Diablo 3 Bot: Ghom Farming/Auto Pick Up/Legendary Notification</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/">Time-lapse Star Rotation Effect Using CSS Animation</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/">Hexo Code Block Bugs: Comments Style and Empty Lines</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Amazon/" style="font-size: 10px;">Amazon</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/Autobot/" style="font-size: 10px;">Autobot</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Big-Data/" style="font-size: 20px;">Big Data</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/Bootstrap/" style="font-size: 10px;">Bootstrap</a> <a href="/tags/Bot/" style="font-size: 10px;">Bot</a> <a href="/tags/Bubble/" style="font-size: 10px;">Bubble</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Carousel/" style="font-size: 10px;">Carousel</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/Chart/" style="font-size: 10px;">Chart</a> <a href="/tags/Circle/" style="font-size: 10px;">Circle</a> <a href="/tags/Code-Block/" style="font-size: 10px;">Code Block</a> <a href="/tags/Diablo-3/" style="font-size: 10px;">Diablo 3</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Flume/" style="font-size: 17.5px;">Flume</a> <a href="/tags/Google-Maps/" style="font-size: 10px;">Google Maps</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Heatmap/" style="font-size: 10px;">Heatmap</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Installation/" style="font-size: 10px;">Installation</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Javascript/" style="font-size: 15px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 10px;">LaTeX</a> <a href="/tags/LinkedIn/" style="font-size: 10px;">LinkedIn</a> <a href="/tags/MapR/" style="font-size: 10px;">MapR</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Real-time/" style="font-size: 10px;">Real-time</a> <a href="/tags/Resume/" style="font-size: 10px;">Resume</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Socket-io/" style="font-size: 10px;">Socket.io</a> <a href="/tags/Spark/" style="font-size: 12.5px;">Spark</a> <a href="/tags/Spark-Streaming/" style="font-size: 12.5px;">Spark Streaming</a> <a href="/tags/Star-Rotation/" style="font-size: 10px;">Star Rotation</a> <a href="/tags/Tableau/" style="font-size: 10px;">Tableau</a> <a href="/tags/Theme/" style="font-size: 10px;">Theme</a> <a href="/tags/Time-lapse/" style="font-size: 10px;">Time-lapse</a> <a href="/tags/Troubleshooting/" style="font-size: 10px;">Troubleshooting</a> <a href="/tags/Web/" style="font-size: 15px;">Web</a> <a href="/tags/doT/" style="font-size: 10px;">doT</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+          
+        
+      </div>
+      <div id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a></br>
+      &copy; 2017 Xing Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</div>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'xingwu';
+  
+  var disqus_url = 'http://xingwu.me/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+    <a href='#logo' id='btn-btt'>^</a>
+  </div>
+</body>
+</html>

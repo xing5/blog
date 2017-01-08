@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Implement Spark Streaming Applications in Java | Xing&#39;s</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The Official Guide of Spark Streaming does not show you how to set up the environment, build and deploy the apps. 
+This article shows you how to implement a Spark Streaming Application in Java from sc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Implement Spark Streaming Applications in Java">
+<meta property="og:url" content="http://xingwu.me/2014/10/11/Implement-Spark-Streaming-Applications-in-Java/index.html">
+<meta property="og:site_name" content="Xing's">
+<meta property="og:description" content="The Official Guide of Spark Streaming does not show you how to set up the environment, build and deploy the apps. 
+This article shows you how to implement a Spark Streaming Application in Java from sc">
+<meta property="og:updated_time" content="2016-11-27T18:38:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Implement Spark Streaming Applications in Java">
+<meta name="twitter:description" content="The Official Guide of Spark Streaming does not show you how to set up the environment, build and deploy the apps. 
+This article shows you how to implement a Spark Streaming Application in Java from sc">
+<meta name="twitter:creator" content="@coolwuxing">
+  
+    <link rel="alternative" href="/atom.xml" title="Xing&#39;s" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Inconsolata:400,700|Open+Sans:700,400" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-43935113-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <div id="header-title">
+        <h1 id="logo-wrap">
+          <a href="/" id="logo">Xing&#39;s
+          
+              <span id="subtitle">Coding the Future</span>
+          
+          </a>
+        </h1>
+      </div>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xingwu.me"></form>
+      </div>
+    </div>
+  </div>
+</div>
+      <div id="main-wrap" class="outer">
+        <section id="main"><article id="post-Implement-Spark-Streaming-Applications-in-Java" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/10/11/Implement-Spark-Streaming-Applications-in-Java/" class="article-date">
+  <time datetime="2014-10-11T22:32:21.000Z" itemprop="datePublished">Oct 11 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Implement Spark Streaming Applications in Java
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The <a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html" target="_blank" rel="external">Official Guide</a> of Spark Streaming does not show you how to set up the environment, build and deploy the apps. 
+This article shows you how to implement a Spark Streaming Application in Java from scratch. </p>
+<a id="more"></a>
+<h2 id="Programming-Environment"><a href="#Programming-Environment" class="headerlink" title="Programming Environment"></a>Programming Environment</h2><p>I prefer <a href="http://www.gradle.org/docs/current/userguide/installation.html" target="_blank" rel="external">Gradle</a> as the build automation and Eclispe as the IDE for java programming. 
+Please make sure you have them installed.</p>
+<p>The first step for any Java project is always creating a folder and a <strong><em>build.gradle</em></strong> file using the <a href="https://gist.github.com/xing5/0d5716717f2bc7b26515#file-build-gradle" target="_blank" rel="external">template</a>.
+Then modify it according to the project. The one I use for Spark Streaming Apps is as below.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">  repositories &#123; jcenter() &#125;</div><div class="line">  dependencies &#123;</div><div class="line">    classpath &apos;com.github.jengelman.gradle.plugins:shadow:1.1.1&apos;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">apply plugin: &apos;java&apos;</div><div class="line">apply plugin: &apos;eclipse&apos;</div><div class="line"></div><div class="line">// This plugin provides the &apos;shadowJar&apos; task, which create an assembly jar.</div><div class="line">// Because Spark requires your jar to bundle everything except spark and hadoop. </div><div class="line">apply plugin: &apos;com.github.johnrengelman.shadow&apos; </div><div class="line"> </div><div class="line">sourceCompatibility = 1.7</div><div class="line">version = &apos;0.1.0&apos;</div><div class="line"></div><div class="line"></div><div class="line">shadowJar &#123;</div><div class="line">    dependencies &#123;</div><div class="line">        exclude(dependency(&apos;org.apache.spark:spark-core_2.10&apos;))</div><div class="line">        exclude(dependency(&apos;org.apache.hadoop:hadoop-core_2.10&apos;))</div><div class="line">        exclude(dependency(&apos;org.apache.hadoop:hadoop-client_2.10&apos;))</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">jar &#123;</div><div class="line">    baseName = &apos;spark-streaming-apps&apos;</div><div class="line">    manifest &#123;</div><div class="line">        attributes &apos;Implementation-Title&apos;: &apos;title&apos;,</div><div class="line">                   &apos;Implementation-Version&apos;: version</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">task initSourceFolders &#123;</div><div class="line">   sourceSets*.java.srcDirs*.each &#123; it.mkdirs() &#125;</div><div class="line">   sourceSets*.resources.srcDirs*.each &#123; it.mkdirs() &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">repositories &#123;</div><div class="line">    mavenLocal()</div><div class="line">    mavenCentral()</div><div class="line">&#125;</div><div class="line"> </div><div class="line">dependencies &#123;</div><div class="line">    // Logging and spark streaming. </div><div class="line">    compile &apos;org.slf4j:slf4j-api:1.7.5&apos;</div><div class="line">    compile &apos;log4j:log4j:1.2.17&apos;</div><div class="line">    compile &apos;org.slf4j:slf4j-log4j12:1.7.5&apos;</div><div class="line">    compile &apos;org.apache.spark:spark-streaming_2.10:1.0.2&apos;</div><div class="line"></div><div class="line">    // Libs required by your apps.</div><div class="line">    compile &apos;org.apache.spark:spark-streaming-flume_2.10:1.0.2&apos;</div><div class="line">    compile &apos;mysql:mysql-connector-java:5.1.33&apos;</div><div class="line">    compile &apos;com.google.inject:guice:3.0&apos;</div><div class="line">    compile &apos;com.google.guava:guava:18.0&apos;</div><div class="line">    compile &apos;com.beust:jcommander:1.25&apos;</div><div class="line"></div><div class="line">    // Declare the dependency for your favourite test framework you want to use in your tests.</div><div class="line">    // TestNG is also supported by the Gradle Test task. Just change the</div><div class="line">    // testCompile dependency to testCompile &apos;org.testng:testng:6.8.1&apos; and add</div><div class="line">    // &apos;test.useTestNG()&apos; to your build script.</div><div class="line">    testCompile &quot;junit:junit:4.11&quot;</div><div class="line">    testCompile &apos;mysql:mysql-connector-java:5.1.33&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Now <code>cd</code> to the project directory, initialize the source folders, create a Eclipse project. 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ gradle initSourceFolders eclipse</div></pre></td></tr></table></figure></p>
+<p>After the command is done, you can import this project to Eclipse. All dependencies are set up automatically. </p>
+<h2 id="Create-an-App"><a href="#Create-an-App" class="headerlink" title="Create an App"></a>Create an App</h2><p>Create a new package, then create a new class for the app. You do not need to inherit any class or implement any interface.
+Please find below as an example app, it receives data from Flume and does some simple aggregations. 
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> example.<span class="keyword">package</span>.name;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.slf4j.Logger;</div><div class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</div><div class="line"><span class="keyword">import</span> org.apache.spark.*;</div><div class="line"><span class="keyword">import</span> org.apache.spark.storage.StorageLevel;</div><div class="line"><span class="keyword">import</span> org.apache.spark.streaming.Duration;</div><div class="line"><span class="keyword">import</span> org.apache.spark.streaming.api.java.*;</div><div class="line"><span class="keyword">import</span> org.apache.spark.streaming.flume.FlumeUtils;</div><div class="line"><span class="keyword">import</span> org.apache.spark.streaming.flume.SparkFlumeEvent;</div><div class="line"></div><div class="line"><span class="keyword">import</span> scala.Tuple2;</div><div class="line"><span class="keyword">import</span> scala.Tuple4;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.beust.jcommander.JCommander;</div><div class="line"><span class="keyword">import</span> com.beust.jcommander.Parameter;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExampleApp</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(ExampleApp.class);</div><div class="line"></div><div class="line">    <span class="meta">@Parameter</span>(names = <span class="string">"-host"</span>, variableArity = <span class="keyword">true</span>, </div><div class="line">        description = <span class="string">"destination of the flume data"</span>, required = <span class="keyword">false</span>)</div><div class="line">    String host = <span class="string">"localhost"</span>; </div><div class="line"></div><div class="line">    <span class="meta">@Parameter</span>(names = <span class="string">"-port"</span>, variableArity = <span class="keyword">true</span>, </div><div class="line">        description = <span class="string">"Port of the destination"</span>, required = <span class="keyword">false</span>)</div><div class="line">    <span class="keyword">int</span> port = <span class="number">4445</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Parameter</span>(names = <span class="string">"-uiport"</span>, variableArity = <span class="keyword">true</span>, description = <span class="string">"port of spark UI"</span>, required = <span class="keyword">false</span>)</div><div class="line">    String uiport = <span class="string">"4041"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line"></div><div class="line">        ExampleApp app = <span class="keyword">new</span> ExampleApp();</div><div class="line">        JCommander jc = <span class="keyword">new</span> JCommander(app);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            jc.parse(args);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            logger.error(e.getMessage());</div><div class="line">            jc.usage();</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line"></div><div class="line">        SparkConf conf = <span class="keyword">new</span> SparkConf().setAppName(<span class="string">"ExampleApp"</span>).set(<span class="string">"spark.ui.port"</span>, app.uiport);</div><div class="line">        JavaStreamingContext ssc = <span class="keyword">new</span> JavaStreamingContext(conf, <span class="keyword">new</span> Duration(<span class="number">10</span> * <span class="number">1000</span>));</div><div class="line">        ssc.checkpoint(<span class="string">"hdfs://HDFS_HOST:HDFS_PORT/spark/checkpoints/ExampleApp/"</span>);</div><div class="line"></div><div class="line">        JavaReceiverInputDStream &lt; SparkFlumeEvent &gt; flumeStream = FlumeUtils.createStream(ssc,</div><div class="line">        app.host, app.port, StorageLevel.MEMORY_ONLY());</div><div class="line"></div><div class="line">        JavaPairDStream &lt; Tuple2 &lt; String, String &gt; , Tuple4 &lt; Integer, Integer, Integer, Integer &gt;&gt; </div><div class="line">            sampleStream = flumeStream.flatMapToPair(<span class="keyword">new</span> ExampleAppFunctions.ExtractPairFromEvents())</div><div class="line">            .reduceByKey(<span class="keyword">new</span> ExampleAppFunctions.ReduceCellByNode());</div><div class="line"></div><div class="line">        sampleStream.foreachRDD(<span class="keyword">new</span> ExampleAppFunctions.OutputNode());</div><div class="line"></div><div class="line">        ssc.start();</div><div class="line">        ssc.awaitTermination();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>For the usage of built-in functions such as <code>foreachRDD</code>, <code>reduceByKey</code>, etc., please refer to <a href="https://spark.apache.org/docs/latest/streaming-programming-guide.html#transformations-on-dstreams" target="_blank" rel="external">Transformation on DStreams</a>.</p>
+<h2 id="Process-RStreams"><a href="#Process-RStreams" class="headerlink" title="Process RStreams"></a>Process RStreams</h2><p>As for the custom functions (e.g.: <code>ExtractPairFromEvents</code>, <code>ReduceCellByNode</code>, etc.), 
+I put them in another class and make them public static, so that the code are more readable. </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> example.<span class="keyword">package</span>.name;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.nio.charset.Charset;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaPairRDD;</div><div class="line"><span class="keyword">import</span> org.apache.spark.api.java.JavaRDD;</div><div class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.FlatMapFunction;</div><div class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.Function;</div><div class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.Function2;</div><div class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.PairFlatMapFunction;</div><div class="line"><span class="keyword">import</span> org.apache.spark.api.java.function.PairFunction;</div><div class="line"><span class="keyword">import</span> org.apache.spark.streaming.flume.SparkFlumeEvent;</div><div class="line"><span class="keyword">import</span> org.slf4j.Logger;</div><div class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</div><div class="line"></div><div class="line"><span class="keyword">import</span> scala.Tuple2;</div><div class="line"><span class="keyword">import</span> scala.Tuple3;</div><div class="line"><span class="keyword">import</span> scala.Tuple4;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.google.common.base.Optional;</div><div class="line"><span class="keyword">import</span> com.google.common.collect.Lists;</div><div class="line"><span class="keyword">import</span> com.google.inject.Guice;</div><div class="line"><span class="keyword">import</span> com.google.inject.Injector;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExampleAppFunctions</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(ExampleAppFunctions.class);</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ExtractPairFromEvents</span> <span class="keyword">implements</span> </span></div><div class="line">        <span class="title">PairFlatMapFunction</span> &lt; <span class="title">SparkFlumeEvent</span>, <span class="title">Tuple2</span> &lt; <span class="title">String</span>, <span class="title">String</span> &gt; ,</div><div class="line">        <span class="title">Tuple4</span> &lt; <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span> &gt;&gt; &#123;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> <span class="keyword">int</span>[] parseQci(String strQciArray) &#123;</div><div class="line">            <span class="keyword">int</span>[] qci = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">12</span>];</div><div class="line">            String[] s = strQciArray.split(<span class="string">","</span>, -<span class="number">1</span>);</div><div class="line">            <span class="keyword">int</span> qciIndex = <span class="number">0</span>;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; s.length; i++) &#123;</div><div class="line">                <span class="keyword">if</span> (i % <span class="number">2</span> == <span class="number">1</span>) &#123;</div><div class="line">                    qciIndex = Integer.valueOf(s[i]);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    qci[qciIndex] = Integer.valueOf(s[i]);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> qci;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> Iterable &lt; Tuple2 &lt; Tuple2 &lt; String, String &gt; , </div><div class="line">        Tuple4 &lt; Integer, Integer, Integer, Integer &gt;&gt;&gt; call(SparkFlumeEvent event)</div><div class="line">        <span class="keyword">throws</span> Exception &#123;</div><div class="line">            List &lt; Tuple2 &lt; Tuple2 &lt; String, String &gt; , Tuple4 &lt; Integer, Integer, Integer, Integer &gt;&gt;&gt; </div><div class="line">                rstList = Lists.newArrayList();</div><div class="line"></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                String body = <span class="keyword">new</span> String(event.event().getBody().array(), Charset.forName(<span class="string">"UTF-8"</span>));</div><div class="line">                String timestamp = <span class="string">"0"</span>;</div><div class="line">                <span class="keyword">for</span> (CharSequence cs: event.event().getHeaders().keySet()) &#123;</div><div class="line">                    <span class="keyword">if</span> (cs.toString().equals(<span class="string">"timestamp"</span>)) &#123;</div><div class="line">                        timestamp = event.event().getHeaders().get(cs).toString();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                String[] cols = body.split(<span class="string">"\\|"</span>, -<span class="number">1</span>);</div><div class="line">                <span class="keyword">if</span> (cols.length &gt; <span class="number">514</span>) &#123;</div><div class="line">                    logger.trace(<span class="string">"MSG: &#123;&#125;|&#123;&#125;|&#123;&#125;|&#123;&#125;|&#123;&#125;|&#123;&#125;"</span>, </div><div class="line">                        cols[<span class="number">0</span>], cols[<span class="number">507</span>], cols[<span class="number">511</span>], cols[<span class="number">509</span>], cols[<span class="number">518</span>], cols[<span class="number">514</span>]);</div><div class="line">                    <span class="keyword">int</span>[] ExampleAbnormalEnbActQci = parseQci(cols[<span class="number">507</span>]);</div><div class="line">                    <span class="keyword">int</span>[] ExampleAbnormalMmeActQci = parseQci(cols[<span class="number">511</span>]);</div><div class="line">                    <span class="keyword">int</span>[] ExampleAbnormalEnbQci = parseQci(cols[<span class="number">509</span>]);</div><div class="line">                    <span class="keyword">int</span>[] ExampleNormalEnbQci = parseQci(cols[<span class="number">518</span>]);</div><div class="line">                    <span class="keyword">int</span>[] ExampleMmeQci = parseQci(cols[<span class="number">514</span>]);</div><div class="line"></div><div class="line">                    Tuple2 &lt; String, String &gt; key = <span class="keyword">new</span> Tuple2 &lt; String, String &gt; (timestamp, cols[<span class="number">0</span>]);</div><div class="line">                    Tuple4 &lt; Integer, Integer, Integer, Integer &gt; val = </div><div class="line">                        <span class="keyword">new</span> Tuple4 &lt; Integer, Integer, Integer, Integer &gt; </div><div class="line">                        (ExampleAbnormalEnbActQci[<span class="number">1</span>] + ExampleAbnormalMmeActQci[<span class="number">1</span>],</div><div class="line">                    ExampleAbnormalEnbQci[<span class="number">1</span>] + ExampleNormalEnbQci[<span class="number">1</span>] + ExampleMmeQci[<span class="number">1</span>],</div><div class="line">                    ExampleAbnormalEnbActQci[<span class="number">8</span>] + ExampleAbnormalMmeActQci[<span class="number">8</span>],</div><div class="line">                    ExampleAbnormalEnbQci[<span class="number">8</span>] + ExampleNormalEnbQci[<span class="number">8</span>] + ExampleMmeQci[<span class="number">8</span>]);</div><div class="line">                    logger.trace(<span class="string">"&#123;&#125; qci: &#123;&#125;,&#123;&#125;,&#123;&#125;,&#123;&#125;"</span>, cols[<span class="number">0</span>], val._1(), val._2(), val._3(), val._4());</div><div class="line">                    rstList.add(<span class="keyword">new</span> Tuple2 &lt; Tuple2 &lt; String, String &gt; , </div><div class="line">                        Tuple4 &lt; Integer, Integer, Integer, Integer &gt;&gt; (key, val));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                logger.error(e.getMessage());</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> rstList;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ReduceCellByNode</span> <span class="keyword">implements</span> <span class="title">Function2</span> </span></div><div class="line">    &lt; <span class="title">Tuple4</span> &lt; <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span> &gt; , <span class="title">Tuple4</span> &lt; <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span> &gt; ,</div><div class="line">    <span class="title">Tuple4</span> &lt; <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span> &gt;&gt; &#123;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">42L</span>;</div><div class="line"></div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="keyword">public</span> Tuple4 &lt; Integer, Integer, Integer, Integer &gt; call(</div><div class="line">        Tuple4 &lt; Integer, Integer, Integer, Integer &gt; v1,</div><div class="line">        Tuple4 &lt; Integer, Integer, Integer, Integer &gt; v2) <span class="keyword">throws</span> Exception &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Tuple4 &lt; Integer, Integer, Integer, Integer &gt; (</div><div class="line">            v1._1() + v2._1(),</div><div class="line">            v1._2() + v2._2(),</div><div class="line">            v1._3() + v2._3(),</div><div class="line">            v1._4() + v2._4());</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">OutputNode</span> <span class="keyword">implements</span> <span class="title">Function</span> &lt; <span class="title">JavaPairRDD</span> &lt; <span class="title">Tuple2</span> &lt; <span class="title">String</span>, <span class="title">String</span> &gt; ,</span></div><div class="line">    <span class="title">Tuple4</span> &lt; <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span>, <span class="title">Integer</span> &gt;&gt; , <span class="title">Void</span> &gt; &#123;</div><div class="line"></div><div class="line">        <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">42L</span>;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> Void <span class="title">call</span><span class="params">(</span></span></div><div class="line">        JavaPairRDD &lt; Tuple2 &lt; String, String &gt; , Tuple4 &lt; Integer, Integer, Integer, Integer &gt;&gt; v1)</div><div class="line">        <span class="keyword">throws</span> Exception &#123;</div><div class="line">            Injector inj = Guice.createInjector(<span class="keyword">new</span> ExampleInjector());</div><div class="line">            ExampleOutputService service = inj.getInstance(ExampleOutputService.class);</div><div class="line">            service.outputNode(v1.collect());</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>You may find that the super long <code>Tuple</code> type names and class names are really annoying, 
+so I do recommend you to try Scala instead of Java when developing Spark Streaming applications.
+It can definitely ease a lot of pain.</p>
+<h2 id="Build-and-Run"><a href="#Build-and-Run" class="headerlink" title="Build and Run"></a>Build and Run</h2><p>Build
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ gradle shadowJar</div></pre></td></tr></table></figure></p>
+<p>You can find the jar in <code>build/libs/</code> with a suffix <code>-all</code> to the name. To run the app as a service:
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ cd $SPARK_DIR</div><div class="line">$ nohup ./bin/spark-submit --class example.package.name.ExampleApp --master spark://SPARK_HOST:7077 </div><div class="line">--executor-memory 256M &quot;/full/path/to/the/jar/of/your/app&quot; -host localhost -port 4444 &gt; exampleapp.log </div><div class="line">2&gt;&amp;1 &lt; /dev/null &amp;</div></pre></td></tr></table></figure></p>
+<p>Please note that <code>-host localhost -port 4444</code> are the parameters for <code>ExampleApp</code>, they are passed to <code>JCommander</code>.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://xingwu.me/2014/10/11/Implement-Spark-Streaming-Applications-in-Java/" data-id="cixny1n3h000507pgjgxyou9r" class="article-share-link">Share</a>
+      
+        <a href="http://xingwu.me/2014/10/11/Implement-Spark-Streaming-Applications-in-Java/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Big-Data/">Big Data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flume/">Flume</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/">Spark</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark-Streaming/">Spark Streaming</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/10/13/Using-Google-Maps-API-to-Implement-a-Two-dimension-Heatmap-like-Tableau/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Using Google Maps API to Implement a Two-dimensional Circle Heatmap like Tableau
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/11/Routing-Flume-Events-to-Different-Sinks/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Routing Flume Events to Multiple Sinks</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+            <aside id="sidebar" class="fixed">
+    <div class="widget-wrap fixed">
+    <h3 class="widget-title">Anchors</h3>
+
+    <div class="widget">
+        <ul class='toc'>
+        <li><a class='anchor' href='#logo'>Title</a></li>
+        <li><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Programming-Environment"><span class="toc-number">1.</span> <span class="toc-text">Programming Environment</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-an-App"><span class="toc-number">2.</span> <span class="toc-text">Create an App</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Process-RStreams"><span class="toc-number">3.</span> <span class="toc-text">Process RStreams</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-and-Run"><span class="toc-number">4.</span> <span class="toc-text">Build and Run</span></a></li></ol></li>
+        <li><a class='anchor' href='#comments'>Comments</a></li> 
+        </ul>
+    </div>
+</div>
+    
+    <div class="widget-wrap">
+      <h3 class="widget-title">Related</h3>
+      <div class="widget recents">
+        <ul>
+  
+    <li>
+      <a href="/2014/10/15/Spark-Streaming-Troubleshooting/">Spark Streaming Troubleshooting</a>
+    </li>
+  
+    <li>
+      <a href="/2014/10/04/Implement-a-Flume-Deserializer-Plugin-to-Import-XML-Files/">Implement a Flume Deserializer Plugin to Import XML Files</a>
+    </li>
+  
+    <li>
+      <a href="/2014/10/07/Load-Data-to-Hive-Using-Flume/">Load Data to Hive Using Flume</a>
+    </li>
+  
+    <li>
+      <a href="/2014/10/11/Routing-Flume-Events-to-Different-Sinks/">Routing Flume Events to Multiple Sinks</a>
+    </li>
+  
+        </ul>
+      </div>
+    </div>
+
+</aside>
+          
+        
+      </div>
+      <div id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a></br>
+      &copy; 2017 Xing Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</div>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'xingwu';
+  
+  var disqus_url = 'http://xingwu.me/2014/10/11/Implement-Spark-Streaming-Applications-in-Java/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+    <a href='#logo' id='btn-btt'>^</a>
+  </div>
+</body>
+</html>

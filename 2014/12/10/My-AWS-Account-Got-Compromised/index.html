@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>My AWS Account Got Compromised | Xing&#39;s</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I made a terrible mistake last week. I accidentally uploaded my access and secret key of Amazon Web Services (AWS) to Github. 
+These keys have the root authority of my AWS account. I used them with AW">
+<meta property="og:type" content="article">
+<meta property="og:title" content="My AWS Account Got Compromised">
+<meta property="og:url" content="http://xingwu.me/2014/12/10/My-AWS-Account-Got-Compromised/index.html">
+<meta property="og:site_name" content="Xing's">
+<meta property="og:description" content="I made a terrible mistake last week. I accidentally uploaded my access and secret key of Amazon Web Services (AWS) to Github. 
+These keys have the root authority of my AWS account. I used them with AW">
+<meta property="og:image" content="http://xingwu.me/images/aws-bill.png">
+<meta property="og:updated_time" content="2016-11-27T18:38:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="My AWS Account Got Compromised">
+<meta name="twitter:description" content="I made a terrible mistake last week. I accidentally uploaded my access and secret key of Amazon Web Services (AWS) to Github. 
+These keys have the root authority of my AWS account. I used them with AW">
+<meta name="twitter:image" content="http://xingwu.me/images/aws-bill.png">
+<meta name="twitter:creator" content="@coolwuxing">
+  
+    <link rel="alternative" href="/atom.xml" title="Xing&#39;s" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  
+  <link href="//fonts.googleapis.com/css?family=Inconsolata:400,700|Open+Sans:700,400" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-43935113-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <div id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-inner" class="inner">
+      <div id="header-title">
+        <h1 id="logo-wrap">
+          <a href="/" id="logo">Xing&#39;s
+          
+              <span id="subtitle">Coding the Future</span>
+          
+          </a>
+        </h1>
+      </div>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://xingwu.me"></form>
+      </div>
+    </div>
+  </div>
+</div>
+      <div id="main-wrap" class="outer">
+        <section id="main"><article id="post-My-AWS-Account-Got-Compromised" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/12/10/My-AWS-Account-Got-Compromised/" class="article-date">
+  <time datetime="2014-12-11T00:51:04.000Z" itemprop="datePublished">Dec 10 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tech/">Tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      My AWS Account Got Compromised
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I made a terrible mistake last week. I accidentally uploaded my access and secret key of Amazon Web Services (AWS) to Github. 
+These keys have the root authority of my AWS account. I used them with AWS’s java SDK to launch EC2 instances. 
+Obviously some crawlers found these keys and they launched a bunch of EC2 instances all over the world with my account. </p>
+<p>This is the result:
+<a id="more"></a></p>
+<p><img src="/images/aws-bill.png" alt="AWS Bill"></p>
+<h2 id="How-did-I-know-the-keys-were-leaked"><a href="#How-did-I-know-the-keys-were-leaked" class="headerlink" title="How did I know the keys were leaked?"></a>How did I know the keys were leaked?</h2><p>I didn’t know until I saw an email from AWS warned me that my account might be compromised, and my current usage is over $10,000 per day. 
+By the time I saw the mails, they have already laid in my mailbox, which is an email address I do not check very often, for two days.
+Through the mails I acknowledged that Amazon tried to contact me but my number could not be connected (That is an old number I used a year ago). They have already found the Github repository where I leaked the keys (probably they also have crawlers).
+After several failed attempts to contact me, Amazon decided to shut down all my services in AWS. </p>
+<h2 id="What-did-I-do-after"><a href="#What-did-I-do-after" class="headerlink" title="What did I do after?"></a>What did I do after?</h2><p>I followed guide in AWS’s email, and deleted those access keys immediately.
+Then I replied the case that Amazon opened for me in the support page. I left my current number and got a call from them. 
+I explained what happened and asked them how to deal with the $20,000 bill.
+Fortunetely, they told me that if they confirmed that my account was compromised after they reviewed my case, I will not be charged. Right now I am still waiting for the result. I will update the post when it’s over.</p>
+<p><strong>[UPDATE - Dec 31, 2014]</strong> Amazon sent me a $20,177.81 USD credit to my account to offset the charges due to the compromise, which has covered my complete December bill.</p>
+<h2 id="How-to-prevent"><a href="#How-to-prevent" class="headerlink" title="How to prevent?"></a>How to prevent?</h2><p>Well, of course you should never put your keys in public. Moreover, I think you should never use these root credentials.
+It is better to create IAM users with limited permissions and IP whitelist.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://xingwu.me/2014/12/10/My-AWS-Account-Got-Compromised/" data-id="cixny1n40000c07pgbzs81mp6" class="article-share-link">Share</a>
+      
+        <a href="http://xingwu.me/2014/12/10/My-AWS-Account-Got-Compromised/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AWS/">AWS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Amazon/">Amazon</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EC2/">EC2</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/12/11/Build-A-Resume-From-Your-LinkedIn-Profile/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Build A Resume From Your LinkedIn Profile
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/26/Share-My-Diablo-3-Bot-Ghom-Farming-Auto-Pick-Up-Legendary-Notification/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Share My Diablo 3 Bot: Ghom Farming/Auto Pick Up/Legendary Notification</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          
+            <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Game/">Game</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Tech/">Tech</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget recents">
+      <ul>
+        
+          <li>
+            <a href="/2014/12/11/Build-A-Resume-From-Your-LinkedIn-Profile/">Build A Resume From Your LinkedIn Profile</a>
+          </li>
+        
+          <li>
+            <a href="/2014/12/10/My-AWS-Account-Got-Compromised/">My AWS Account Got Compromised</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/26/Share-My-Diablo-3-Bot-Ghom-Farming-Auto-Pick-Up-Legendary-Notification/">Share My Diablo 3 Bot: Ghom Farming/Auto Pick Up/Legendary Notification</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/11/Time-lapse-Star-Rotation-Effect-Using-CSS-Animation/">Time-lapse Star Rotation Effect Using CSS Animation</a>
+          </li>
+        
+          <li>
+            <a href="/2014/11/08/Hexo-Code-Block-Bugs-Comments-Style-and-Empty-Lines/">Hexo Code Block Bugs: Comments Style and Empty Lines</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AWS/" style="font-size: 10px;">AWS</a> <a href="/tags/Amazon/" style="font-size: 10px;">Amazon</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/Autobot/" style="font-size: 10px;">Autobot</a> <a href="/tags/Automation/" style="font-size: 10px;">Automation</a> <a href="/tags/Big-Data/" style="font-size: 20px;">Big Data</a> <a href="/tags/Blog/" style="font-size: 10px;">Blog</a> <a href="/tags/Bootstrap/" style="font-size: 10px;">Bootstrap</a> <a href="/tags/Bot/" style="font-size: 10px;">Bot</a> <a href="/tags/Bubble/" style="font-size: 10px;">Bubble</a> <a href="/tags/Bug/" style="font-size: 10px;">Bug</a> <a href="/tags/CSS/" style="font-size: 10px;">CSS</a> <a href="/tags/Carousel/" style="font-size: 10px;">Carousel</a> <a href="/tags/CentOS/" style="font-size: 10px;">CentOS</a> <a href="/tags/Chart/" style="font-size: 10px;">Chart</a> <a href="/tags/Circle/" style="font-size: 10px;">Circle</a> <a href="/tags/Code-Block/" style="font-size: 10px;">Code Block</a> <a href="/tags/Diablo-3/" style="font-size: 10px;">Diablo 3</a> <a href="/tags/EC2/" style="font-size: 10px;">EC2</a> <a href="/tags/Flume/" style="font-size: 17.5px;">Flume</a> <a href="/tags/Google-Maps/" style="font-size: 10px;">Google Maps</a> <a href="/tags/Hadoop/" style="font-size: 10px;">Hadoop</a> <a href="/tags/Heatmap/" style="font-size: 10px;">Heatmap</a> <a href="/tags/Hexo/" style="font-size: 12.5px;">Hexo</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/Installation/" style="font-size: 10px;">Installation</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Javascript/" style="font-size: 15px;">Javascript</a> <a href="/tags/LaTeX/" style="font-size: 10px;">LaTeX</a> <a href="/tags/LinkedIn/" style="font-size: 10px;">LinkedIn</a> <a href="/tags/MapR/" style="font-size: 10px;">MapR</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Real-time/" style="font-size: 10px;">Real-time</a> <a href="/tags/Resume/" style="font-size: 10px;">Resume</a> <a href="/tags/Route/" style="font-size: 10px;">Route</a> <a href="/tags/Socket-io/" style="font-size: 10px;">Socket.io</a> <a href="/tags/Spark/" style="font-size: 12.5px;">Spark</a> <a href="/tags/Spark-Streaming/" style="font-size: 12.5px;">Spark Streaming</a> <a href="/tags/Star-Rotation/" style="font-size: 10px;">Star Rotation</a> <a href="/tags/Tableau/" style="font-size: 10px;">Tableau</a> <a href="/tags/Theme/" style="font-size: 10px;">Theme</a> <a href="/tags/Time-lapse/" style="font-size: 10px;">Time-lapse</a> <a href="/tags/Troubleshooting/" style="font-size: 10px;">Troubleshooting</a> <a href="/tags/Web/" style="font-size: 15px;">Web</a> <a href="/tags/doT/" style="font-size: 10px;">doT</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/11/">November 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+          
+        
+      </div>
+      <div id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a></br>
+      &copy; 2017 Xing Wu<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</div>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'xingwu';
+  
+  var disqus_url = 'http://xingwu.me/2014/12/10/My-AWS-Account-Got-Compromised/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+    <a href='#logo' id='btn-btt'>^</a>
+  </div>
+</body>
+</html>
