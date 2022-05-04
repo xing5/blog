@@ -14,7 +14,7 @@ function init() {
 
     var heatmap_data = {};
     var gmap_data = [];
-    $.ajax({url:'http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp', jsonp: false, jsonpCallback:'eqfeed_callback', cache: true, dataType:'jsonp'});
+    $.ajax({url:'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojsonp', jsonp: false, jsonpCallback:'eqfeed_callback', cache: true, dataType:'jsonp'});
     eqfeed_callback = function(rst) {
         $('.num').html(rst.metadata.count);
         var generate_time = new Date(rst.metadata.generated);
